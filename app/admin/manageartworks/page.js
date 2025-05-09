@@ -13,11 +13,27 @@ export default function ManageArtworksPage() {
   const [limit] = useState(8);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchArtworks();
-  }, [filters, page]);
+  // useEffect(() => {
+  //   fetchArtworks();
+  // }, [filters, page]);
 
-  async function fetchArtworks() {
+  // async function fetchArtworks() {
+  //   const query = new URLSearchParams({
+  //     page,
+  //     limit,
+  //     ...filters,
+  //   }).toString();
+
+  //   const res = await fetch(`/api/admin/artworks?${query}`);
+  //   const { artworks, total } = await res.json();
+  //   setArtworks(artworks);
+  //   setTotal(total);
+  //   setLoading(false);
+
+  //   // window.scrollTo({ top: 0, behavior: 'smooth' });
+  // }
+  
+  const fetchArtworks = useCallback(async () => {
     const query = new URLSearchParams({
       page,
       limit,
@@ -29,9 +45,12 @@ export default function ManageArtworksPage() {
     setArtworks(artworks);
     setTotal(total);
     setLoading(false);
+  }, [filters, page, limit]);
 
-    // window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  // ✅ useEffect with correct dependency
+  useEffect(() => {
+    fetchArtworks();
+  }, [fetchArtworks]);
 
   async function deleteArtwork(id) {
     if (!confirm("Are you sure?")) return;
