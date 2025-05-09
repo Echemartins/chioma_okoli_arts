@@ -50,7 +50,7 @@ export default function Home() {
           />
           <div className="flex items-center justify-center">
             <p className="text-xl md:text-2xl leading-relaxed text-gray-400 text-center w-11/12 lg:w-10/12">
-              Explore a world of creativity and passion through Chiomzy&apos;s exceptional art pieces. Each creation tells a unique story and reflects the artist's profound experiences.
+              Explore a world of creativity and passion through Chiomzy&apos;s exceptional art pieces. Each creation tells a unique story and reflects the artist&apos;s profound experiences.
             </p>
           </div>
         </section>
