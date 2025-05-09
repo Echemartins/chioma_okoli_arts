@@ -1,6 +1,6 @@
 // app/api/auth/protected/route.js
 
-import { verifyToken } from "../../../../lib/auth";
+import { verifyToken } from "@/lib/auth";
 
 export async function GET(req) {
   const token = req.headers.get("Authorization")?.split(" ")[1];
