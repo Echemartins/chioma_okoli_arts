@@ -4,10 +4,22 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Marquee from "react-fast-marquee";
+import { usePathname } from "next/navigation";
 
 export default function Home() {
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [lightModeOn, setlightModeOn] = useState(true)
+
+  const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "store", href: "/store" },
+    { label: "Upcoming shows", href: "/upcoming-shows" },
+    { label: "Exhibitions", href: "/exhibitions" },
+    { label: "Contact Us", href: "/contact" },
+  ];
 
 
   const toggleMenu = () => {
@@ -36,15 +48,27 @@ export default function Home() {
 
     {/* Navigation Menu for larger screens */}
     <nav className="hidden md:flex gap-6 md:flex-row md:gap-10 ml-10">
-      <Link href="/">Home</Link>
-      <Link href="/about">About</Link>
-      <Link href="/gallery">Gallery</Link>
-      <Link href="/store">Store</Link>
-      {/* <Link href="/favorites">Favorites</Link> */}
-      {/* <Link href="/experiences">Experiences</Link> */}
-      <Link href="/upcoming-shows">Upcoming Shows</Link>
-      <Link href="/exhibitions">Exhibitions</Link>
-      <Link href="/contact">Contact</Link>
+      <ul className="flex space-x-6 mt-2 sm:mt-0">
+                {navLinks.map(({ label, href }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className={`hover:text-purple-400 transition ${
+                        pathname === href ? "text-purple-500 font-semibold" : ""
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+      {/* <Link href="/" className={`hover:text-purple-400 transition ${pathname === href ? "text-purple-500 font-semibold" : ""}`}>Home</Link>
+      <Link href="/about" className={`hover:text-purple-400 transition ${pathname === href ? "text-purple-500 font-semibold" : ""}`} >About</Link>
+      <Link href="/gallery" className={`hover:text-purple-400 transition ${pathname === href ? "text-purple-500 font-semibold" : ""}`} >Gallery</Link>
+      <Link href="/store" className={`hover:text-purple-400 transition ${pathname === href ? "text-purple-500 font-semibold" : ""}`} >Store</Link>
+      <Link href="/upcoming-shows" className={`hover:text-purple-400 transition ${pathname === href ? "text-purple-500 font-semibold" : ""}`} >Upcoming Shows</Link>
+      <Link href="/exhibitions" className={`hover:text-purple-400 transition ${pathname === href ? "text-purple-500 font-semibold" : ""}`}>Exhibitions</Link>
+      <Link href="/contact" className={`hover:text-purple-400 transition ${pathname === href ? "text-purple-500 font-semibold" : ""}`} >Contact</Link> */}
     </nav>
   </header>
 
@@ -60,19 +84,32 @@ export default function Home() {
         onClick={closeMenu}
         className="text-3xl text-white focus:outline-none"
       >
-        &#10005; {/* Close icon */}
+        &#10005;
       </button>
     </div>
     <nav className="flex h-screen bg-black text-white flex-col items-center py-10 space-y-6">
-      <Link href="/" onClick={closeMenu}>Home</Link>
+    <ul className="flex flex-col items-center py-10 space-y-6">
+                {navLinks.map(({ label, href }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      onClick={closeMenu}
+                      className={`hover:text-purple-400 transition ${
+                        pathname === href ? "text-purple-500 font-semibold" : ""
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+      {/* <Link href="/" onClick={closeMenu}>Home</Link>
       <Link href="/about" onClick={closeMenu}>About</Link>
       <Link href="/gallery" onClick={closeMenu}>Gallery</Link>
       <Link href="/store" onClick={closeMenu}>Store</Link>
-      {/* <Link href="/favorites" onClick={closeMenu}>Favorites</Link> */}
-      {/* <Link href="/experiences" onClick={closeMenu}>Experiences</Link> */}
       <Link href="/upcoming-shows" onClick={closeMenu}>Upcoming Shows</Link>
       <Link href="/exhibitions" onClick={closeMenu}>Exhibitions</Link>
-      <Link href="/contact" onClick={closeMenu}>Contact</Link>
+      <Link href="/contact" onClick={closeMenu}>Contact</Link> */}
     </nav>
   </div>
 

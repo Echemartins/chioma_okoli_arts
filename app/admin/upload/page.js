@@ -30,21 +30,79 @@ const UploadArtworkPage = () => {
     setImageFile(e.target.files[0]);
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setUploading(true);
+  //   setError("");
+  
+  //   if (!imageFile) {
+  //     setError("Please upload an image.");
+  //     setUploading(false);
+  //     return;
+  //   }
+  
+  //   try {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(imageFile);
+  //     reader.onloadend = async () => {
+  //       const base64Image = reader.result;
+  
+  //       const body = {
+  //         title: formData.title,
+  //         description: formData.description,
+  //         category: formData.category,
+  //         price: formData.price,
+  //         imageUrl: base64Image, // Using base64 image
+  //         isStoreItem: formData.isStoreItem,
+  //         isFeatured: formData.isFeatured,
+  //       };
+  
+  //       const token = localStorage.getItem("token");
+  //       if(!token){
+  //         router.push("/login")
+  //       }
+  
+  //       const res = await fetch("/api/artworks/upload", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify(body), // Send as JSON
+  //       });
+  
+  //       if (!res.ok) {
+  //         const errorText = await res.text();
+  //         throw new Error(errorText);
+  //         // router.push("/login");
+  //       }else{
+  //         router.push("/gallery");
+  //       }
+  
+  //     };
+  //   } catch (err) {
+  //    console.log(err.message, 'an error has occured')
+  //   } finally {
+  //     setUploading(false);
+  //   }
+  // };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setUploading(true);
     setError("");
   
     if (!imageFile) {
       setError("Please upload an image.");
-      setUploading(false);
       return;
     }
   
     try {
       const reader = new FileReader();
+  
       reader.readAsDataURL(imageFile);
       reader.onloadend = async () => {
+        setUploading(true); // ✅ Moved here
         const base64Image = reader.result;
   
         const body = {
@@ -52,37 +110,42 @@ const UploadArtworkPage = () => {
           description: formData.description,
           category: formData.category,
           price: formData.price,
-          imageUrl: base64Image, // Using base64 image
+          imageUrl: base64Image,
           isStoreItem: formData.isStoreItem,
           isFeatured: formData.isFeatured,
         };
   
         const token = localStorage.getItem("token");
-        if(!token){
-          router.push("/login")
+        if (!token) {
+          router.push("/login");
+          return;
         }
   
-        const res = await fetch("/api/artworks/upload", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(body), // Send as JSON
-        });
+        try {
+          const res = await fetch("/api/artworks/upload", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
+          });
   
-        if (!res.ok) {
-          const errorText = await res.text();
-          throw new Error(errorText);
-          // router.push("/login");
-        }else{
+          if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(errorText);
+          }
+  
           router.push("/gallery");
+        } catch (err) {
+          console.error(err.message, "an error has occurred");
+          setError("Failed to upload artwork.");
+        } finally {
+          setUploading(false); // ✅ Ensures button re-enables
         }
-  
       };
     } catch (err) {
-     console.log(err.message, 'an error has occured')
-    } finally {
+      console.error("Error during file read or upload", err);
       setUploading(false);
     }
   };
