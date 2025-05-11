@@ -42,13 +42,13 @@ const FAQSection = ()=> {
           >
             <button
               onClick={() => toggleFAQ(index)}
-              className="w-full flex justify-between items-center p-4 bg-gray-100 hover:bg-gray-200"
+              className="w-full flex justify-between items-center p-4 bg-purple-200 hover:bg-indigo-200"
             >
               <span className="font-medium text-left text-gray-800">{faq.question}</span>
               <span className="text-lg text-gray-600">{activeIndex === index ? '−' : '+'}</span>
             </button>
             {activeIndex === index && (
-              <div className="p-4 bg-white text-gray-700 border-t border-gray-200 transition-all">
+              <div className="p-4 bg-indigo-200 text-gray-700 border-t border-gray-200 transition-all">
                 {faq.answer}
               </div>
             )}
@@ -60,4 +60,3 @@ const FAQSection = ()=> {
 }
 
 export default FAQSection;
-//       <div className="flex flex-col items-center space-y-6">
