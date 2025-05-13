@@ -32,7 +32,7 @@ export default function GalleryPage() {
       <Header />
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-20 md:mt-2 mb-10">
         <select
           className="bg-gray-900 text-white border border-gray-700 px-4 py-2 rounded-md w-full sm:w-auto"
           onChange={(e) => setCategory(e.target.value)}

@@ -54,7 +54,7 @@ export default function ArtworkDetail() {
   return (
     <div>
       <Header />
-      <div className="min-h-screen bg-black text-white p-6">
+      <div className="min-h-screen bg-black text-white p-6 mt-32 lg:mt-2">
         <div className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">  
           <div className="w-full relative aspect-[3/2] max-h-[60vh] overflow-hidden rounded-lg">
             <Image

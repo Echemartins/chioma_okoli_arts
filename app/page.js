@@ -97,16 +97,16 @@ export default function Home() {
            
 
           <Link
-            href="/featured-arts"
-            className="block w-fit mx-auto mt-6 bg-purple-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition duration-300 transform hover:scale-105"
+            href="/gallery"
+            className="block w-fit mx-auto mt-6 bg-purple-300 text-white px-5 py-2 rounded-xl hover:bg-blue-300 transition duration-300 transform hover:scale-105"
           >
             View More
           </Link>
         </section>
       </main>
       <FAQSection />
-      <footer className="w-full p-6 bg-white shadow-md text-center mt-20">
-        <p className="text-gray-600 text-lg">&copy; 2025 Chiomzy Creations. All Rights Reserved.</p>
+      <footer className="w-full p-6 bg-gray-900 shadow-md text-center mt-20">
+        <p className="text-gray-300 text-lg">&copy; 2025 Chiomzy Creations. All Rights Reserved.</p>
       </footer>
     </div>
   );

@@ -15,9 +15,9 @@ export default function Home() {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Gallery", href: "/gallery" },
-    { label: "store", href: "/store" },
-    { label: "Upcoming shows", href: "/upcoming-shows" },
-    { label: "Exhibitions", href: "/exhibitions" },
+    // { label: "store", href: "/store" },
+    // { label: "Upcoming shows", href: "/upcoming-shows" },
+    // { label: "Exhibitions", href: "/exhibitions" },
     { label: "Contact Us", href: "/contact" },
   ];
 
