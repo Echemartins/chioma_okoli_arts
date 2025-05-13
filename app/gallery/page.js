@@ -10,33 +10,31 @@ export default function GalleryPage() {
   const [artworks, setArtworks] = useState([]);
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState("newest");
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchArtworks = async () => {
       let query = `/api/artworks?`;
-
       if (category !== "all") query += `category=${category}&`;
       if (sort) query += `sort=${sort}`;
 
       const res = await fetch(query);
       const data = await res.json();
       setArtworks(data);
-      setLoading(false)
+      setLoading(false);
     };
 
     fetchArtworks();
   }, [category, sort]);
 
   return (
-    
-    <div className="min-h-screen bg-black text-white px-4 md:px-16 py-20">
+    <div className="min-h-screen bg-black text-white px-4 sm:px-6 lg:px-16 py-20">
       <Header />
 
       {/* Filters */}
-      <div className="flex flex-col mt-15 md:mt-5 md:flex-row items-center justify-between gap-4 mb-10">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
         <select
-          className="bg-gray-900 text-white border border-gray-700 px-4 py-2 rounded-md w-full md:w-auto"
+          className="bg-gray-900 text-white border border-gray-700 px-4 py-2 rounded-md w-full sm:w-auto"
           onChange={(e) => setCategory(e.target.value)}
           value={category}
         >
@@ -50,7 +48,7 @@ export default function GalleryPage() {
         </select>
 
         <select
-          className="bg-gray-900 text-white border border-gray-700 px-4 py-2 rounded-md w-full md:w-auto"
+          className="bg-gray-900 text-white border border-gray-700 px-4 py-2 rounded-md w-full sm:w-auto"
           onChange={(e) => setSort(e.target.value)}
           value={sort}
         >
@@ -61,37 +59,37 @@ export default function GalleryPage() {
         </select>
       </div>
 
-      {/* Artworks Grid */}
-      {loading? <div className="flex justify-center py-10">
-      <ClipLoader color="#2563eb" size={60} />
-    </div>:<div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-8">
-        {artworks.map((artwork) => (
-          <Link href={`/gallery/${artwork._id}`} key={artwork._id}>
-            <div className="cursor-pointer bg-gray-800 rounded-xl overflow-hidden shadow-md hover:scale-105 transition transform duration-300">
-              <Image
-                src={artwork.imageUrl}
-                alt={artwork.title}
-                width={500}
-                height={300}
-                className="object-cover w-full h-64 rounded-2xl p-2"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold mb-1">{artwork.title}</h2>
-                <p className="text-gray-400 text-sm mb-2">{artwork.category}</p>
-                {/* <p className="text-gray-300 text-sm mb-2">{artwork.description}</p> */}
-                <p className="text-yellow-400 font-bold">${artwork.price}</p>
-                {/* <p className="text-gray-500 text-xs mt-2">
-                  Uploaded on: {new Date(artwork.createdAt).toLocaleDateString()}
-                </p> */}
-                <button className="mt-3 px-4 py-2 text-sm bg-purple-600 hover:bg-purple-700 text-white rounded-md">
-                  View Artwork
-                </button>
+      {/* Loading */}
+      {loading ? (
+        <div className="flex justify-center py-10">
+          <ClipLoader color="#2563eb" size={60} />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
+          {artworks.map((artwork) => (
+            <Link href={`/gallery/${artwork._id}`} key={artwork._id}>
+              <div className="cursor-pointer bg-gray-800 rounded-xl overflow-hidden shadow-lg  transition-transform duration-300">
+                <div className="relative aspect-[2/2] flex items-center justify-center">
+                  <Image
+                    src={artwork.imageUrl}
+                    alt={artwork.title}
+                    fill
+                    className="object-contain  p-3 hover:scale-105"
+                  />
+                </div>
+                <div className="p-4 grid ">
+                  <h2 className="text-lg font-semibold">{artwork.title}</h2>
+                  <p className="text-yellow-400 font-bold">N{artwork.price}</p>
+                  <p className="text-gray-400 text-sm mb-1">{artwork.category}</p>
+                  <button className="mt-3 px-4 py-2 text-sm bg-purple-600 hover:bg-purple-700 text-white rounded-md">
+                    View Artwork
+                  </button>
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
-      </div>}
-      
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

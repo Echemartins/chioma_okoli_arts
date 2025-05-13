@@ -69,24 +69,28 @@ export default function Home() {
                     <ClipLoader color="#2563eb" size={60} />
                     </div>:
                     (featuredArtworks.length > 0 ? (
-            <div className="flex overflow-x-auto">
-              <Marquee pauseOnHover speed={30} gradient={false} className="flex gap-6">
-                {featuredArtworks.map((art) => (
-                  <div key={art._id}  className="bg-gray-800 mx-3 rounded-xl overflow-hidden shadow-md hover:scale-105 transition transform duration-300 h-[350px] w-[250px] p-2">
-                    <Image
-                      src={art.imageUrl}
-                      alt={art.title}
-                      width={400}
-                      height={300}
-                      className="rounded-md object-cover h-[90%]"
-                    />
-                    <h3 className="text-lg font-medium text-gray-300 mt-2">
-                      {art.title}
-                    </h3>
-                  </div>
-                ))}
-              </Marquee>
-            </div>
+                      <div className="flex overflow-x-auto">
+                      <Marquee pauseOnHover speed={30} gradient={false} className="flex gap-6">
+                        {featuredArtworks.map((art) => (
+                          <div
+                            key={art._id}
+                            className="bg-gray-800 mx-1 rounded overflow-hidden shadow-md transition transform duration-300 w-[300px] p-1"
+                          >
+                            <div className="w-full h-[200px] bg-black flex items-center justify-center overflow-hidden">
+                              <Image
+                                src={art.imageUrl}
+                                alt={art.title}
+                                width={300}
+                                height={200}
+                                className="object-contain h-full"
+                              />
+                            </div>
+                            <h3 className="text-lg font-medium text-gray-300 mx-3 mt-2">{art.title}</h3>
+                          </div>
+                        ))}
+                      </Marquee>
+                    </div>
+                    
           ) : (
             <p className="text-center text-gray-400 mb-6">No featured artworks available at the moment.</p>
           )) }
