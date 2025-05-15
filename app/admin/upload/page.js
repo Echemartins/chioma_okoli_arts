@@ -198,7 +198,7 @@ const UploadArtworkPage = () => {
             name="price"
             value={formData.price}
             onChange={handleChange}
-            placeholder="Price (USD)"
+            placeholder="Price (NGN)"
             required
             className="w-full px-4 py-2 bg-zinc-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
           />

@@ -34,7 +34,7 @@ export default function RegisterPage() {
 
     if (res.ok) {
       localStorage.setItem('token', data.token);
-      router.push('/');
+      router.push('/admin');
     } else {
       setError(data.message || 'Registration failed');
     }

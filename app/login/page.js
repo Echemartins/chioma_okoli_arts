@@ -29,7 +29,7 @@ export default function LoginPage() {
         
         if (res.ok) {
         localStorage.setItem('token', data.token);
-        router.push("/gallery");
+        router.push("/admin");
     } else {
       setError(data.message || "Login failed.");
     }
