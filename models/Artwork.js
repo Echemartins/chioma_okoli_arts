@@ -34,6 +34,11 @@ const artworkSchema = new mongoose.Schema(
   }
 );
 
+artworkSchema.index({ createdAt: -1 }); // descending index for newest first sorting
+artworkSchema.index({ price: 1 });      // ascending index for price sorting
+
+
+
 const Artwork = mongoose.models.Artwork || mongoose.model("Artwork", artworkSchema);
 
 export default Artwork;

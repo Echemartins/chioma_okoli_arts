@@ -89,66 +89,80 @@ const UploadArtworkPage = () => {
   
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-  
-    if (!imageFile) {
-      setError("Please upload an image.");
-      return;
-    }
-  
-    try {
-      const reader = new FileReader();
-  
-      reader.readAsDataURL(imageFile);
-      reader.onloadend = async () => {
-        setUploading(true); // ✅ Moved here
-        const base64Image = reader.result;
-  
-        const body = {
-          title: formData.title,
-          description: formData.description,
-          category: formData.category,
-          price: formData.price,
-          imageUrl: base64Image,
-          isStoreItem: formData.isStoreItem,
-          isFeatured: formData.isFeatured,
-        };
-  
-        const token = localStorage.getItem("token");
-        if (!token) {
-          router.push("/login");
-          return;
-        }
-  
-        try {
-          const res = await fetch("/api/artworks/upload", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(body),
-          });
-  
-          if (!res.ok) {
-            const errorText = await res.text();
-            throw new Error(errorText);
-          }
-  
-          router.push("/gallery");
-        } catch (err) {
-          console.error(err.message, "an error has occurred");
-          setError("Failed to upload artwork.");
-        } finally {
-          setUploading(false); // ✅ Ensures button re-enables
-        }
+  e.preventDefault();
+  setError("");
+
+  if (!imageFile) {
+    setError("Please upload an image.");
+    return;
+  }
+
+  // ✅ Validate image file type
+  if (!imageFile.type.startsWith("image/")) {
+    setError("Only image files are allowed.");
+    return;
+  }
+
+  // ✅ Validate image file size (max 5MB)
+  const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+  if (imageFile.size > maxSize) {
+    setError("Image size should be under 5MB.");
+    return;
+  }
+
+  try {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(imageFile);
+    reader.onloadend = async () => {
+      setUploading(true);
+      const base64Image = reader.result;
+
+      const body = {
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        price: formData.price,
+        imageUrl: base64Image,
+        isStoreItem: formData.isStoreItem,
+        isFeatured: formData.isFeatured,
       };
-    } catch (err) {
-      console.error("Error during file read or upload", err);
-      setUploading(false);
-    }
-  };
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        router.push("/login");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/artworks/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        });
+
+        if (!res.ok) {
+          const errorJson = await res.json();
+          throw new Error(errorJson.message || "Failed to upload artwork.");
+        }
+
+        router.push("/gallery");
+      } catch (err) {
+        console.error(err.message, "an error has occurred");
+        setError(err.message);
+      } finally {
+        setUploading(false);
+      }
+    };
+  } catch (err) {
+    console.error("Error during file read or upload", err);
+    setError("An unexpected error occurred.");
+    setUploading(false);
+  }
+};
   
 
   return (

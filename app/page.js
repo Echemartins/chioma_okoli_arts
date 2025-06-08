@@ -76,13 +76,13 @@ export default function Home() {
                             key={art._id}
                             className="bg-gray-800 mx-1 rounded overflow-hidden shadow-md transition transform duration-300 w-[300px] p-1"
                           >
-                            <div className="w-full h-[200px] bg-black flex items-center justify-center overflow-hidden">
+                            <div className="w-full h-[200px] flex items-center rounded-3xl justify-center overflow-hidden">
                               <Image
                                 src={art.imageUrl}
                                 alt={art.title}
                                 width={300}
                                 height={200}
-                                className="object-contain h-full"
+                                className="object-contain h-full m-4"
                               />
                             </div>
                             <h3 className="text-lg font-medium text-gray-300 mx-3 mt-2">{art.title}</h3>

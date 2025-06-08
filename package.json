@@ -11,9 +11,12 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.6.1",
+    "formidable": "^3.5.4",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
+    "multer": "^2.0.1",
     "next": "15.2.4",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.10.0",

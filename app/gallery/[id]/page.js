@@ -62,7 +62,10 @@ export default function ArtworkDetail() {
               alt={artwork.title}
               fill
               className="w-full h-auto object-contain rounded-lg"
-              priority
+              // priority
+              placeholder="blur"
+              blurDataURL="/placeholder.jpg" // low-quality placeholder
+              loading="lazy"
             />
           </div>
 
