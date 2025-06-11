@@ -5,108 +5,130 @@ import Image from "next/image";
 import Link from "next/link";
 import Marquee from "react-fast-marquee";
 import Header from "./header";
-import { ClipLoader } from 'react-spinners';
-import FAQSection from './faqs'
-
+import { ClipLoader } from "react-spinners";
+import FAQSection from "./faqs";
+import TestimonialsSection from "./testimonials";
+import FeaturedArtworksSection from "./featuredArtworks";  
 
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [lightModeOn, setLightModeOn] = useState(false);
-  const [featuredArtworks, setFeaturedArtworks] = useState([]);
-  const [loading, setLoading] = useState(true)
+  // const [featuredArtworks, setFeaturedArtworks] = useState([]);
+  // const [loading, setLoading] = useState(true);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
+  // useEffect(() => {
+  //   const fetchFeaturedArtworks = async () => {
+  //     try {
+  //       const res = await fetch("/api/artworks/featured");
+  //       const data = await res.json();
+  //       setFeaturedArtworks(data.artworks || []);
+  //     } catch (err) {
+  //       console.error("Failed to fetch featured artworks:", err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-  useEffect(() => {
-    const fetchFeaturedArtworks = async () => {
-      try {
-        const res = await fetch("/api/artworks/featured");
-        console.log('this is the res',res)
-        const data = await res.json();
-        console.log('this is the data',data)
-        setFeaturedArtworks(data.artworks || []);
-        setLoading(false)
-      } catch (err) {
-        console.error("Failed to fetch featured artworks:", err);
-      }
-    };
-
-    fetchFeaturedArtworks();
-  }, []);
+  //   fetchFeaturedArtworks();
+  // }, []);
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-white text-gray-800 min-h-screen">
       <Header />
-      <main className="pt-26 mx-auto px-6 w-full max-w-7xl md:pt-2">
+
+      <main className="max-w-7xl mx-auto px-6 py-16 space-y-24">
         {/* Hero Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 py-15">
-          <Image
-            className="object-cover w-full rounded-2xl"
-            src="/chioma-in-museum.jpg"
-            alt="chioma-home-image"
-            width={400}
-            height={300}
-          />
-          <div className="flex items-center justify-center">
-            <p className="text-xl md:text-2xl leading-relaxed text-gray-400 text-center w-11/12 lg:w-10/12">
-              Explore a world of creativity and passion through Chiomzy&apos;s exceptional art pieces. Each creation tells a unique story and reflects the artist&apos;s profound experiences.
+        <section className="grid md:grid-cols-2 items-center gap-12">
+          <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-2xl shadow-lg">
+            <Image
+              src="/chioma-in-museum.jpg"
+              alt="Chioma viewing her artwork"
+              width={500}
+              height={600}
+              className="object-cover w-full h-full"
+              priority
+            />
+          </div>
+
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-orange-500">
+              Welcome to Chiomzy&apos;s World of Art
+            </h1>
+            <p className="text-lg text-gray-600 leading-relaxed max-w-xl mx-auto md:mx-0">
+              Explore a world of creativity and passion through Chiomzy&apos;s exceptional art pieces.
+              Each creation tells a unique story and reflects the artist&apos;s profound experiences.
             </p>
           </div>
         </section>
 
         {/* Featured Section */}
-        <section className="flex flex-col items-center">
-          <h2 className="text-3xl font-semibold mb-4">Featured Artwork</h2>
-          <p className="text-lg text-gray-400 mb-6 text-center w-10/12 md:w-7/12">
-            Immerse yourself in a collection of captivating artworks that showcase Chiomzy&apos;s talent and artistic flair. Each piece is a masterpiece waiting to be admired.
-          </p>
+
+        <section className="bg-orange-50 py-16 px-6">
+          <FeaturedArtworksSection/>
         </section>
 
-        {/* Scrolling Gallery */}
-        <section>
-          {loading? <div className="flex justify-center py-5">
-                    <ClipLoader color="#2563eb" size={60} />
-                    </div>:
-                    (featuredArtworks.length > 0 ? (
-                      <div className="flex overflow-x-auto">
-                      <Marquee pauseOnHover speed={30} gradient={false} className="flex gap-6">
-                        {featuredArtworks.map((art) => (
-                          <div
-                            key={art._id}
-                            className="bg-gray-800 mx-1 rounded overflow-hidden shadow-md transition transform duration-300 w-[300px] p-1"
-                          >
-                            <div className="w-full h-[200px] flex items-center rounded-3xl justify-center overflow-hidden">
-                              <Image
-                                src={art.imageUrl}
-                                alt={art.title}
-                                width={300}
-                                height={200}
-                                className="object-contain h-full m-4"
-                              />
-                            </div>
-                            <h3 className="text-lg font-medium text-gray-300 mx-3 mt-2">{art.title}</h3>
-                          </div>
-                        ))}
-                      </Marquee>
-                    </div>
-                    
+        <section className="text-center px-4 md:px-6 lg:px-8 py-20 bg-white">
+          <TestimonialsSection />
+         </section>
+
+        {/* <section className="text-center">
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-orange-500">Featured Artworks</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
+            Discover a curated selection of Chiomzy’s most captivating pieces. Every work is a window
+            into a creative soul.
+          </p>
+
+          {loading ? (
+            <div className="flex justify-center py-10">
+              <ClipLoader color="#f97316" size={60} />
+            </div>
+          ) : featuredArtworks.length > 0 ? (
+            <Marquee
+              pauseOnHover
+              speed={30}
+              gradient={false}
+              className="space-x-6"
+            >
+              {featuredArtworks.map((art) => (
+                <div
+                  key={art._id}
+                  className="bg-gray-100 rounded-2xl shadow-md overflow-hidden p-3 w-[280px] mx-2 border border-orange-200"
+                >
+                  <div className="h-[200px] flex items-center justify-center overflow-hidden rounded-xl bg-white">
+                    <Image
+                      src={art.imageUrl}
+                      alt={art.title}
+                      width={260}
+                      height={200}
+                      className="object-contain h-full"
+                    />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-800 mt-3 text-center">
+                    {art.title}
+                  </h3>
+                </div>
+              ))}
+            </Marquee>
           ) : (
-            <p className="text-center text-gray-400 mb-6">No featured artworks available at the moment.</p>
-          )) }
-           
+            <p className="text-gray-500">No featured artworks available at the moment.</p>
+          )}
 
           <Link
             href="/gallery"
-            className="block w-fit mx-auto mt-6 bg-purple-300 text-white px-5 py-2 rounded-xl hover:bg-blue-300 transition duration-300 transform hover:scale-105"
+            className="mt-10 inline-block bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl transition-transform transform hover:scale-105"
           >
-            View More
+            View Full Gallery
           </Link>
+        </section> */}
+        
+
+        {/* FAQ Section */}
+        <section>
+          <FAQSection />
         </section>
       </main>
-      <FAQSection />
-      <footer className="w-full p-6 bg-gray-900 shadow-md text-center mt-20">
-        <p className="text-gray-300 text-lg">&copy; 2025 Chiomzy Creations. All Rights Reserved.</p>
+
+      {/* Footer */}
+      <footer className="w-full bg-gray-100 py-6 text-center text-gray-600 mt-16 border-t border-gray-300">
+        <p className="text-sm">&copy; {new Date().getFullYear()} Chiomzy Creations. All rights reserved.</p>
       </footer>
     </div>
   );
