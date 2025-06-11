@@ -34,9 +34,9 @@ export default function Home() {
     <div className="bg-white text-gray-800 min-h-screen">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-6 py-16 space-y-24">
+      <main className="max-w-7xl mx-auto px-6 py-6 space-y-8">
         {/* Hero Section */}
-        <section className="grid md:grid-cols-2 items-center gap-12">
+        <section className="grid md:grid-cols-2 items-center mt-12 mb-30 gap-12">
           <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-2xl shadow-lg">
             <Image
               src="/chioma-in-museum.jpg"
@@ -61,13 +61,13 @@ export default function Home() {
 
         {/* Featured Section */}
 
-        <section className="bg-orange-50 py-16 px-6">
+        <section className="bg-orange-50 py-6 px-4">
           <FeaturedArtworksSection/>
         </section>
 
-        <section className="text-center px-4 md:px-6 lg:px-8 py-20 bg-white">
+        <section className="text-center px-4 py-6 bg-white">
           <TestimonialsSection />
-         </section>
+         </section> 
 
         {/* <section className="text-center">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-orange-500">Featured Artworks</h2>

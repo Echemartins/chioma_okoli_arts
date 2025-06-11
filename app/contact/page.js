@@ -51,7 +51,7 @@ export default function ContactPage() {
   return (
     <div>
       <Header />
-      <div className="min-h-screen bg-white text-orange-900 pt-28 md:pt-10">
+      <div className="min-h-screen bg-white text-orange-900 pt-28 md:pt-10 mx-4">
         <h1 className="text-4xl font-bold mb-6 text-center">Contact Us</h1>
 
         <div className="max-w-4xl mx-auto grid gap-12 lg:grid-cols-2">
