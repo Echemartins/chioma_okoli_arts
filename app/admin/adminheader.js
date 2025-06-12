@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { X, Menu } from "lucide-react";
+import Image from "next/image";
 
 export default function AdminHeader() {
   const pathname = usePathname();
@@ -15,30 +17,37 @@ export default function AdminHeader() {
     { label: "Contact Messages", href: "/admin/contacts" },
   ];
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  }; 
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
   return (
-    <header className="bg-gray-900 text-white shadow-md py-4 px-6 sticky top-0 z-50">
-      <nav className="flex flex-wrap items-center justify-between">
-        <h1 className="text-xl font-bold tracking-wide">Admin Panel</h1>
+    <header className="bg-white text-black shadow-md sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            className="object-contain w-24 md:w-40"
+            src="/IMG-20250610-WA0017_1_-removebg-preview (1).png"
+            alt="chioma-home-image"
+            width={140}
+            height={80}
+          />
+        </Link>
+
         <button
-        onClick={toggleMenu}
-        className="md:hidden text-3xl text-white focus:outline-none">
-          &#9776; {/* Hamburger icon */}
+          onClick={() => setIsMenuOpen(true)}
+          className="md:hidden text-3xl text-orange-500 focus:outline-none"
+          aria-label="Open menu"
+        >
+          <Menu />
         </button>
-        <ul className="hidden md:flex gap-6 md:flex-row md:gap-10 ml-10">
+
+        {/* Desktop Nav */}
+        <ul className="hidden md:flex space-x-8">
           {navLinks.map(({ label, href }) => (
             <li key={href}>
               <Link
                 href={href}
-                className={`hover:text-purple-400 transition ${
-                  pathname === href ? "text-purple-500 font-semibold" : ""
+                className={`transition-colors font-medium ${
+                  pathname === href
+                    ? "text-orange-600"
+                    : "text-gray-700 hover:text-orange-500"
                 }`}
               >
                 {label}
@@ -46,48 +55,49 @@ export default function AdminHeader() {
             </li>
           ))}
         </ul>
-      </nav>
-      <div
-    className={`md:hidden fixed top-0 left-0 right-0 bottom-0 bg-white text-2xl text-black bg-opacity-80 z-70 transition-transform duration-300 ease-in-out ${
-      isMenuOpen ? "transform translate-x-0" : "transform translate-x-full"
-    }`}
-  >
-    <div className="flex justify-between items-center p-6 bg-black text-white z-80 shadow-lg">
-      <h1 className="text-2xl font-bold">CHIOMZY CREATIONS</h1>
-      <button
-        onClick={closeMenu}
-        className="text-3xl text-white focus:outline-none"
-      >
-        &#10005;
-      </button>
-    </div>
-    <nav className="flex h-screen bg-black text-white flex-col items-center py-10 space-y-6">
-    <ul className="flex flex-col items-center py-10 space-y-6">
-                {navLinks.map(({ label, href }) => (
-                  <li key={href}>
-                    <Link
-                      href={href}
-                      onClick={closeMenu}
-                      className={`hover:text-purple-400 transition ${
-                        pathname === href ? "text-purple-500 font-semibold" : ""
-                      }`}
-                    >
-                      {label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-      {/* <Link href="/" onClick={closeMenu}>Home</Link>
-      <Link href="/about" onClick={closeMenu}>About</Link>
-      <Link href="/gallery" onClick={closeMenu}>Gallery</Link>
-      <Link href="/store" onClick={closeMenu}>Store</Link>
-      <Link href="/upcoming-shows" onClick={closeMenu}>Upcoming Shows</Link>
-      <Link href="/exhibitions" onClick={closeMenu}>Exhibitions</Link>
-      <Link href="/contact" onClick={closeMenu}>Contact</Link> */}
-    </nav>
-  </div>
+      </div>
 
-      
+      {/* Mobile Nav Overlay */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+
+      <div
+        className={`fixed top-0 right-0 h-full w-64 bg-white text-black z-50 transform transition-transform duration-300 ease-in-out ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between px-6 py-4 shadow-md">
+          <h2 className="text-lg font-bold text-orange-600">Admin Menu</h2>
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="text-2xl text-gray-600"
+            aria-label="Close menu"
+          >
+            <X />
+          </button>
+        </div>
+
+        <nav className="px-6 py-6 space-y-6">
+          {navLinks.map(({ label, href }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setIsMenuOpen(false)}
+              className={`block text-base font-medium transition-colors ${
+                pathname === href
+                  ? "text-orange-400"
+                  : "text-gray-700 hover:text-orange-500"
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }

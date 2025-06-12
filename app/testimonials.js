@@ -8,7 +8,7 @@ const testimonials = [
     name: "Amaka N.",
     title: "Art Collector",
     feedback:
-      "Chiomzy's work is both captivating and soulful. Every piece I own tells a deep, personal story.",
+      "Chioma's work is both captivating and soulful. Every piece I own tells a deep, personal story.",
   },
   {
     name: "Tunde A.",
@@ -20,7 +20,7 @@ const testimonials = [
     name: "Ify O.",
     title: "Interior Designer",
     feedback:
-      "Chiomzy's art has transformed my clients’ spaces — warm, vibrant, and full of life!",
+      "Chioma's art has transformed my clients’ spaces — warm, vibrant, and full of life!",
   },
 ];
 

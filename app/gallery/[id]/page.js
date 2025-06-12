@@ -4,135 +4,160 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Header from "../../header";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-hot-toast";
+
+const formSchema = z.object({
+  email: z.string().email(),
+  phone: z.string().min(10).max(15),
+  message: z.string().optional(),
+});
 
 export default function ArtworkDetail() {
   const { id } = useParams();
   const [artwork, setArtwork] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    phone: "",
-    message: "",
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(formSchema),
   });
 
   useEffect(() => {
     const fetchArtwork = async () => {
-      const res = await fetch(`/api/artworks/${id}`);
-      const data = await res.json();
-      setArtwork(data);
+      try {
+        const res = await fetch(`/api/artworks/${id}`);
+        const data = await res.json();
+        setArtwork(data);
+      } catch (error) {
+        console.error("Error fetching artwork:", error);
+      }
     };
 
     fetchArtwork();
   }, [id]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const onSubmit = async (formData) => {
+    try {
+      const res = await fetch("/api/requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, artworkId: id }),
+      });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const res = await fetch("/api/requests", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...formData, artworkId: id }),
-    });
-
-    if (res.ok) {
-      alert("Request sent successfully!");
-      setShowForm(false);
-      setFormData({ email: "", phone: "", message: "" });
-    } else {
-      alert("Something went wrong.");
+      if (res.ok) {
+        toast.success("Request sent successfully!");
+        setShowForm(false);
+        reset();
+      } else {
+        toast.error("Something went wrong.");
+      }
+    } catch {
+      toast.error("Network error.");
     }
   };
 
   if (!artwork)
-    return <div className="text-center text-white mt-10">Loading...</div>;
+    return <div className="text-center text-orange-600 mt-20">Loading...</div>;
 
   return (
-    <div>
+    <div>full
       <Header />
-      <div className="min-h-screen bg-black text-white p-6 mt-32 lg:mt-2">
-        <div className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">  
-          <div className="w-full relative aspect-[3/2] max-h-[60vh] overflow-hidden rounded-lg">
+      <div className=" bg-white text-orange-800 mt-32 md:mt-2">
+        <div className="max-w-2xl mx-auto bg-orange-50 rounded-lg shadow-lg">
+          <div className="relative w-full aspect-[3/2] max-h-[60vh] overflow-hidden rounded-lg">
             <Image
               src={artwork.imageUrl}
               alt={artwork.title}
               fill
-              className="w-full h-auto object-contain rounded-lg"
-              // priority
+              className="object-contain rounded-lg p-4"
               placeholder="blur"
-              blurDataURL="/placeholder.jpg" // low-quality placeholder
+              blurDataURL="/placeholder.jpg"
               loading="lazy"
             />
           </div>
 
-          <div className="flex flex-col mt-6">
-            <h1 className="text-3xl font-bold">{artwork.title}</h1>
-            <p className="text-lg mt-2">Price: ${artwork.price}</p>
+          <div className="flex flex-col space-y-1 bg-orange-100 p-4 rounded-b-lg">
+            <h1 className="text-2xl font-bold text-orange-500">{artwork.title}</h1>
+            <p className="text-sm font-medium">Price: ${artwork.price}</p>
             <button
               onClick={() => setShowForm(true)}
-              className="mt-6 px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg"
+              className=" w-fit px-6 py-2 bg-orange-400 hover:bg-orange-500 text-white rounded-lg transition"
             >
               Request to Buy
             </button>
           </div>
         </div>
 
-        {showForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-            <form
-              onSubmit={handleSubmit}
-              className="bg-purple-200 text-black p-8 rounded-lg w-[80%] max-w-lg"
+        <AnimatePresence>
+          {showForm && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-white bg-opacity-20 backdrop-blur-sm flex items-center justify-center z-50 px-4"
             >
-              <h2 className="text-xl font-semibold mb-4 text-gray-600">
-                Purchase Request
-              </h2>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email"
-                required
-                className="w-full mb-3 px-4 py-2 border border-gray-400 rounded outline-0"
-              />
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Phone Number"
-                required
-                className="w-full mb-3 px-4 py-2 border border-gray-400 rounded outline-0 "
-              />
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Message"
-                className="w-full mb-4 px-4 py-2 border border-gray-400 rounded outline-0"
-              />
-              <div className="flex justify-end space-x-3">
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="px-4 py-2 bg-gray-400 text-white rounded"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-purple-600 text-white rounded"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
+              <motion.form
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onSubmit={handleSubmit(onSubmit)}
+                className="bg-white text-orange-800 p-8 rounded-lg w-full max-w-lg shadow-xl"
+              >
+                <h2 className="text-2xl font-semibold mb-6 text-center text-orange-600">
+                  Purchase Request
+                </h2>
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  {...register("email")}
+                  className="w-full mb-2 px-4 py-2 border border-orange-300 rounded focus:outline-orange-500"
+                />
+                {errors.email && (
+                  <p className="text-sm text-red-500 mb-2">{errors.email.message}</p>
+                )}
+
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  {...register("phone")}
+                  className="w-full mb-2 px-4 py-2 border border-orange-300 rounded focus:outline-orange-500"
+                />
+                {errors.phone && (
+                  <p className="text-sm text-red-500 mb-2">{errors.phone.message}</p>
+                )}
+
+                <textarea
+                  placeholder="Message (Optional)"
+                  {...register("message")}
+                  className="w-full mb-4 px-4 py-2 border border-orange-300 rounded focus:outline-orange-500"
+                />
+                <div className="flex justify-end gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowForm(false)}
+                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </motion.form>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

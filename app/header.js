@@ -75,7 +75,15 @@ const lightmode = (
       }`}
     >
       <div className="flex justify-between items-center px-6 py-4 bg-white shadow-md">
-        <span className="text-xl font-bold text-orange-500">CHIOMZY</span>
+        <Link href="/" className="flex items-center gap-2">
+        <Image
+          className="object-contain w-24 md:w-40"
+          src="/IMG-20250610-WA0017_1_-removebg-preview (1).png"
+          alt="chioma-home-image"
+          width={140}
+          height={80}
+        />
+      </Link>
         <button
           onClick={closeMenu}
           className="text-3xl text-gray-800 focus:outline-none"
