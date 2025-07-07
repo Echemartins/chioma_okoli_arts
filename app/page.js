@@ -39,7 +39,7 @@ export default function Home() {
         <section className="grid md:grid-cols-2 items-center mt-12 mb-30 gap-12">
           <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-2xl shadow-lg">
             <Image
-              src="/chioma-in-museum.jpg"
+              src="/chioma_okoli.jpg"
               alt="Chioma viewing her artwork"
               width={500}
               height={600}
@@ -50,10 +50,10 @@ export default function Home() {
 
           <div className="text-center md:text-left">
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-orange-500">
-              Welcome to Chiomzy&apos;s World of Art
+              Welcome to Chioma&apos;s World of Art
             </h1>
             <p className="text-lg text-gray-600 leading-relaxed max-w-xl mx-auto md:mx-0">
-              Explore a world of creativity and passion through Chiomzy&apos;s exceptional art pieces.
+              Explore a world of creativity and passion through Chioma&apos;s exceptional art pieces.
               Each creation tells a unique story and reflects the artist&apos;s profound experiences.
             </p>
           </div>
