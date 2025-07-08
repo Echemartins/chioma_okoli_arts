@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     question: 'Do you offer custom art commissions?',
-    answer: 'Yes! You can request a custom artwork by contacting us through the contact page or via the "Commission a Piece" option.',
+    answer: 'Yes! You can request a custom artwork by contacting us through the contact page. Send a message with details about your vision, size, and style preferences.',
   },
   {
     question: 'How are artworks delivered?',
@@ -19,7 +19,7 @@ const faqs = [
   },
   {
     question: 'Can I visit a physical gallery?',
-    answer: 'Currently, we operate online only. We occasionally host pop-up exhibitions—subscribe to our newsletter to stay updated.',
+    answer: 'Some of the artists works are displayed at the Awka Museum Foundation at 261 Zik Avenue Awka, Anambra State and we occasionally host pop-up exhibitions. Subscribe to our newsletter to stay updated.',
   },
   {
     question: 'What payment methods do you accept?',
@@ -35,7 +35,7 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="max-w-3xl mx-auto px-4 py-6">
+    <section className="max-w-5xl mx-auto py-6">
       <h2 className="text-3xl font-bold text-center mb-8 text-orange-500">Frequently Asked Questions</h2>
       <div className="space-y-4">
         {faqs.map((faq, index) => {

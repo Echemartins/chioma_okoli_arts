@@ -11,24 +11,6 @@ import TestimonialsSection from "./testimonials";
 import FeaturedArtworksSection from "./featuredArtworks";  
 
 export default function Home() {
-  // const [featuredArtworks, setFeaturedArtworks] = useState([]);
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const fetchFeaturedArtworks = async () => {
-  //     try {
-  //       const res = await fetch("/api/artworks/featured");
-  //       const data = await res.json();
-  //       setFeaturedArtworks(data.artworks || []);
-  //     } catch (err) {
-  //       console.error("Failed to fetch featured artworks:", err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchFeaturedArtworks();
-  // }, []);
 
   return (
     <div className="bg-white text-gray-800 min-h-screen">
@@ -59,74 +41,19 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Featured Section */}
-
         <section className="bg-orange-50 py-6 px-4">
           <FeaturedArtworksSection/>
         </section>
 
         <section className="text-center px-4 py-6 bg-white">
           <TestimonialsSection />
-         </section> 
-
-        {/* <section className="text-center">
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-orange-500">Featured Artworks</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
-            Discover a curated selection of Chiomzy’s most captivating pieces. Every work is a window
-            into a creative soul.
-          </p>
-
-          {loading ? (
-            <div className="flex justify-center py-10">
-              <ClipLoader color="#f97316" size={60} />
-            </div>
-          ) : featuredArtworks.length > 0 ? (
-            <Marquee
-              pauseOnHover
-              speed={30}
-              gradient={false}
-              className="space-x-6"
-            >
-              {featuredArtworks.map((art) => (
-                <div
-                  key={art._id}
-                  className="bg-gray-100 rounded-2xl shadow-md overflow-hidden p-3 w-[280px] mx-2 border border-orange-200"
-                >
-                  <div className="h-[200px] flex items-center justify-center overflow-hidden rounded-xl bg-white">
-                    <Image
-                      src={art.imageUrl}
-                      alt={art.title}
-                      width={260}
-                      height={200}
-                      className="object-contain h-full"
-                    />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-800 mt-3 text-center">
-                    {art.title}
-                  </h3>
-                </div>
-              ))}
-            </Marquee>
-          ) : (
-            <p className="text-gray-500">No featured artworks available at the moment.</p>
-          )}
-
-          <Link
-            href="/gallery"
-            className="mt-10 inline-block bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl transition-transform transform hover:scale-105"
-          >
-            View Full Gallery
-          </Link>
-        </section> */}
+         </section>
         
-
-        {/* FAQ Section */}
         <section>
           <FAQSection />
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="w-full bg-gray-100 py-6 text-center text-gray-600 mt-16 border-t border-gray-300">
         <p className="text-sm">&copy; {new Date().getFullYear()} Chiomzy Creations. All rights reserved.</p>
       </footer>

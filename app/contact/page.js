@@ -105,7 +105,7 @@ export default function ContactPage() {
           <div className="space-y-6 text-center lg:text-left">
             <iframe
               title="location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31515.87135696283!2d7.0002461!3d6.4501729!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104381c81c679d6d%3A0x123456789!2sEnugu!5e0!3m2!1sen!2sng!4v0000000000000"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.434122380433!2d7.076147374992794!3d6.103489028042312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1043830d72a1a161%3A0xd87c80200bb403e7!2s261%20Zik%20Ave%2C%20Awka%2C%20Anambra!5e0!3m2!1sen!2sng!4v1718800000000!5m2!1sen!2sng"
               width="100%"
               height="250"
               style={{ border: 0 }}
@@ -115,7 +115,7 @@ export default function ContactPage() {
             ></iframe>
             <div>
               <h2 className="text-xl font-bold mb-2">Our Address</h2>
-              <p>123 Art Avenue, Enugu, Nigeria</p>
+              <p>261 Zik Avenue, Awka, Anambra State, Nigeria</p>
               <p>Email: contact@chiomaokoli.art</p>
               <p>Phone: +2347089277261</p>
             </div>
@@ -158,4 +158,3 @@ export default function ContactPage() {
     </div>
   );
 }
-
