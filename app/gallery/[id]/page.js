@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 
 const formSchema = z.object({
+  name: z.string().min(2, "Name is required"),
   email: z.string().email(),
   phone: z.string().min(10).max(15),
   message: z.string().optional(),
@@ -20,6 +21,7 @@ export default function ArtworkDetail() {
   const { id } = useParams();
   const [artwork, setArtwork] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -45,6 +47,7 @@ export default function ArtworkDetail() {
   }, [id]);
 
   const onSubmit = async (formData) => {
+    setLoading(true);
     try {
       const res = await fetch("/api/requests", {
         method: "POST",
@@ -57,10 +60,13 @@ export default function ArtworkDetail() {
         setShowForm(false);
         reset();
       } else {
-        toast.error("Something went wrong.");
+        const error = await res.json();
+        toast.error(error?.error || "Something went wrong.");
       }
     } catch {
       toast.error("Network error.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,9 +74,9 @@ export default function ArtworkDetail() {
     return <div className="text-center text-orange-600 mt-20">Loading...</div>;
 
   return (
-    <div>full
+    <div>
       <Header />
-      <div className=" bg-white text-orange-800 mt-32 md:mt-2">
+      <div className="bg-white text-orange-800 mt-32 md:mt-2">
         <div className="max-w-2xl mx-auto bg-orange-50 rounded-lg shadow-lg">
           <div className="relative w-full aspect-[3/2] max-h-[60vh] overflow-hidden rounded-lg">
             <Image
@@ -89,7 +95,7 @@ export default function ArtworkDetail() {
             <p className="text-sm font-medium">Price: ${artwork.price}</p>
             <button
               onClick={() => setShowForm(true)}
-              className=" w-fit px-6 py-2 bg-orange-400 hover:bg-orange-500 text-white rounded-lg transition"
+              className="w-fit px-6 py-2 bg-orange-400 hover:bg-orange-500 hover:cursor-pointer text-white rounded-lg transition"
             >
               Request to Buy
             </button>
@@ -114,6 +120,17 @@ export default function ArtworkDetail() {
                 <h2 className="text-2xl font-semibold mb-6 text-center text-orange-600">
                   Purchase Request
                 </h2>
+
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  {...register("name")}
+                  className="w-full mb-2 px-4 py-2 border border-orange-300 rounded focus:outline-orange-500"
+                />
+                {errors.name && (
+                  <p className="text-sm text-red-500 mb-2">{errors.name.message}</p>
+                )}
+
                 <input
                   type="email"
                   placeholder="Your Email"
@@ -139,6 +156,7 @@ export default function ArtworkDetail() {
                   {...register("message")}
                   className="w-full mb-4 px-4 py-2 border border-orange-300 rounded focus:outline-orange-500"
                 />
+
                 <div className="flex justify-end gap-4">
                   <button
                     type="button"
@@ -149,9 +167,14 @@ export default function ArtworkDetail() {
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition"
+                    disabled={loading}
+                    className={`px-5 py-2 rounded text-white transition hover:cursor-pointer ${
+                      loading
+                        ? "bg-orange-300 cursor-not-allowed"
+                        : "bg-orange-600 hover:bg-orange-700"
+                    }`}
                   >
-                    Submit
+                    {loading ? "Submitting Request..." : "Submit"}
                   </button>
                 </div>
               </motion.form>

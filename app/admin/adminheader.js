@@ -15,6 +15,7 @@ export default function AdminHeader() {
     { label: "Manage Artworks", href: "/admin/manageartworks" },
     { label: "Subscribers", href: "/admin/subscribers" },
     { label: "Contact Messages", href: "/admin/contacts" },
+    { label: "Purchase Requests", href: "/admin/requests" },
   ];
 
   return (
