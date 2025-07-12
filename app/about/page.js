@@ -139,7 +139,7 @@ const AboutPage = () => {
                   <a href="https://instagram.com/chomzyart_" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
                     <FaInstagram />
                   </a>
-                  <a href="https://www.linkedin.com/in/chioma-okoli" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
+                  <a href="https://www.linkedin.com/in/chioma-favour-7631791a2?trk=contact-info" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
                     <FaLinkedin />
                   </a>
                 </div>

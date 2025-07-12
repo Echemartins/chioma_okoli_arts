@@ -17,7 +17,7 @@ export default function Home() {
     <div className="bg-white text-gray-800 min-h-screen">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-6 py-15 md:py-6 space-y-8">
+      <main className="max-w-7xl mx-auto px-6 pt-15 md:py-6 space-y-8">
         {/* Hero Section */}
         <section className="grid md:grid-cols-2 items-center mt-12 mb-30 gap-12">
           <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-2xl shadow-lg">
@@ -55,7 +55,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-white border-t border-orange-200 text-orange-900 mt-24">
+      <footer className="bg-white border-t border-orange-200 text-orange-900 mt-15">
       <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-10 text-center md:text-left">
         {/* Contact Info */}
         <div>
@@ -75,7 +75,7 @@ export default function Home() {
             <a href="https://instagram.com/chomzyart_" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
               <FaInstagram />
             </a>
-            <a href="https://www.linkedin.com/in/chioma-okoli" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
+            <a href="https://www.linkedin.com/in/chioma-favour-7631791a2?trk=contact-info" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
               <FaLinkedin />
             </a>
           </div>
