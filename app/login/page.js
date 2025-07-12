@@ -116,7 +116,7 @@ export default function LoginPage() {
         </form>
 
         <p className="text-sm text-center text-gray-600 mt-4">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <button
             onClick={() => router.push("/register")}
             className="text-orange-500 hover:text-orange-600 font-medium underline"
