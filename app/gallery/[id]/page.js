@@ -92,40 +92,40 @@ export default function ArtworkDetail() {
             />
           </div>
 
-          <div className="flex flex-col space-y-1 bg-orange-100 p-4 rounded-b-lg">
-  <h1 className="text-2xl font-bold text-orange-500">{artwork.title}</h1>
-  <p className="text-sm font-medium mb-1">Price: ${artwork.price}</p>
+          <div className="flex flex-col space-y-1 bg-orange-100 p-4 rounded-b-lg text-center">
+            <h1 className="text-2xl font-bold text-orange-500">{artwork.title}</h1>
+            <p className="text-sm font-medium mb-1">Price: ${artwork.price}</p>
 
-  {artwork.description && (
-  <div className="text-sm text-orange-800">
-    <span className="font-semibold text-orange-600">Description:</span>{" "}
-    <span>
-      {showFullDescription
-        ? artwork.description
-        : artwork.description.length > 120
-          ? `${artwork.description.slice(0, 120)}...`
-          : artwork.description}
-    </span>
+            {artwork.description && (
+              <div className="text-sm text-orange-800">
+                <span className="font-semibold text-orange-600">Description:</span>{" "}
+                <span>
+                  {showFullDescription
+                    ? artwork.description
+                    : artwork.description.length > 120
+                      ? `${artwork.description.slice(0, 120)}...`
+                      : artwork.description}
+                </span>
 
-    {artwork.description.length > 120 && (
-      <button
-        onClick={() => setShowFullDescription(!showFullDescription)}
-        className="ml-2 text-orange-500 hover:text-orange-700 font-medium focus:outline-none"
-      >
-        {showFullDescription ? "Read less" : "Read more"}
-      </button>
-    )}
-  </div>
-)}
+                {artwork.description.length > 120 && (
+                  <button
+                    onClick={() => setShowFullDescription(!showFullDescription)}
+                    className="ml-2 text-orange-500 hover:text-orange-700 font-medium focus:outline-none"
+                  >
+                    {showFullDescription ? "Read less" : "Read more"}
+                  </button>
+                )}
+              </div>
+            )}
 
 
-  <button
-    onClick={() => setShowForm(true)}
-    className="w-fit px-6 py-2 bg-orange-400 hover:bg-orange-500 hover:cursor-pointer text-white rounded-lg transition"
-  >
-    Request to Buy
-  </button>
-</div>
+            <button
+              onClick={() => setShowForm(true)}
+              className="w-fit px-6 py-2 bg-orange-400 hover:bg-orange-500 hover:cursor-pointer text-white rounded-lg transition mx-auto"
+            >
+              Request to Buy
+            </button>
+          </div>
 
         </div>
 
@@ -195,11 +195,10 @@ export default function ArtworkDetail() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className={`px-5 py-2 rounded text-white transition hover:cursor-pointer ${
-                      loading
+                    className={`px-5 py-2 rounded text-white transition hover:cursor-pointer ${loading
                         ? "bg-orange-300 cursor-not-allowed"
                         : "bg-orange-600 hover:bg-orange-700"
-                    }`}
+                      }`}
                   >
                     {loading ? "Submitting Request..." : "Submit"}
                   </button>
@@ -210,38 +209,38 @@ export default function ArtworkDetail() {
         </AnimatePresence>
       </div>
       <footer className="bg-white border-t border-orange-200 text-orange-900 mt-24">
-              <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-10 text-center md:text-left">
-                {/* Contact Info */}
-                <div>
-                  <h3 className="text-xl font-semibold mb-3 text-orange-600">Contact</h3>
-                  <p className="text-sm">261 Zik Avenue, Awka, Anambra State</p>
-                  <p className="text-sm mt-2">Email: <a href="mailto:Favourchomzy69@gmail.com" className="hover:underline text-orange-500">Favourchomzy69@gmail.com</a></p>
-                  <p className="text-sm mt-1">
-                    Phone: <a href="tel:+2347089277261" className="hover:underline text-orange-500">+2347089277261</a>,{" "}
-                    <a href="tel:+2348165685370" className="hover:underline text-orange-500">+2348165685370</a>
-                  </p>
-                </div>
-      
-                {/* Socials */}
-                <div>
-                  <h3 className="text-xl font-semibold mb-3 text-orange-600">Connect With Me</h3>
-                  <div className="flex justify-center md:justify-start items-center gap-4 text-2xl text-orange-600">
-                    <a href="https://instagram.com/chomzyart_" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
-                      <FaInstagram />
-                    </a>
-                    <a href="https://www.linkedin.com/in/chioma-favour-7631791a2?trk=contact-info" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
-                      <FaLinkedin />
-                    </a>
-                  </div>
-                  <p className="text-sm mt-3 text-orange-700">Instagram: @chomzyart_</p>
-                  <p className="text-sm text-orange-700">LinkedIn: Chioma Okoli</p>
-                </div>
-              </div>
-      
-              <div className="bg-orange-100 text-center text-sm text-orange-800 py-4">
-                &copy; {new Date().getFullYear()} Chioma-Okoli Arts. All rights reserved.
-              </div>
-            </footer>
+        <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-10 text-center md:text-left">
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-xl font-semibold mb-3 text-orange-600">Contact</h3>
+            <p className="text-sm">261 Zik Avenue, Awka, Anambra State</p>
+            <p className="text-sm mt-2">Email: <a href="mailto:Favourchomzy69@gmail.com" className="hover:underline text-orange-500">Favourchomzy69@gmail.com</a></p>
+            <p className="text-sm mt-1">
+              Phone: <a href="tel:+2347089277261" className="hover:underline text-orange-500">+2347089277261</a>,{" "}
+              <a href="tel:+2348165685370" className="hover:underline text-orange-500">+2348165685370</a>
+            </p>
+          </div>
+
+          {/* Socials */}
+          <div>
+            <h3 className="text-xl font-semibold mb-3 text-orange-600">Connect With Me</h3>
+            <div className="flex justify-center md:justify-start items-center gap-4 text-2xl text-orange-600">
+              <a href="https://instagram.com/chomzyart_" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
+                <FaInstagram />
+              </a>
+              <a href="https://www.linkedin.com/in/chioma-favour-7631791a2?trk=contact-info" target="_blank" rel="noopener noreferrer" className="hover:text-orange-800 transition">
+                <FaLinkedin />
+              </a>
+            </div>
+            <p className="text-sm mt-3 text-orange-700">Instagram: @chomzyart_</p>
+            <p className="text-sm text-orange-700">LinkedIn: Chioma Okoli</p>
+          </div>
+        </div>
+
+        <div className="bg-orange-100 text-center text-sm text-orange-800 py-4">
+          &copy; {new Date().getFullYear()} Chioma-Okoli Arts. All rights reserved.
+        </div>
+      </footer>
     </div>
   );
 }

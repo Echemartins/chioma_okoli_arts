@@ -129,7 +129,7 @@ export default function GalleryPage() {
         ) : (
           <>
             {/* Artwork Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
               {artworks.map((artwork) => (
                 <Link href={`/gallery/${artwork._id}`} key={artwork._id}>
                   <div className="cursor-pointer bg-orange-50 rounded-xl overflow-hidden shadow-lg border border-orange-200 hover:shadow-xl transition-transform duration-300 hover:scale-[1.02]">

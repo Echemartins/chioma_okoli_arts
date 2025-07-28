@@ -17,7 +17,7 @@ export default function Home() {
     <div className="bg-white text-gray-800 min-h-screen">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-6 pt-15 md:py-6 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 pt-15 md:py-6 space-y-8">
         {/* Hero Section */}
         <section className="grid md:grid-cols-2 items-center mt-12 mb-30 gap-12">
           <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-2xl shadow-lg">

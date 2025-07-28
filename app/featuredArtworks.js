@@ -26,7 +26,7 @@ const FeaturedArtworksSection = () => {
   }, []);
 
   return (
-    <section className="text-center px-4 md:px-6 lg:px-8 bg-orange-50 py-16">
+    <section className="text-center px-1 md:px-6 lg:px-8 bg-orange-50 py-16">
       <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-orange-500">
         Featured Artworks
       </h2>
@@ -61,8 +61,9 @@ const FeaturedArtworksSection = () => {
         //     </div>
         //   ))}
         // </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
           {featuredArtworks.map((art) => (
+            <Link href={`/gallery/${art._id}`} key={art._id}>
             <div
               key={art._id}
               className="border border-gray-300 p-4 text-center hover:shadow-lg transition-shadow rounded"
@@ -79,6 +80,7 @@ const FeaturedArtworksSection = () => {
               <h3 className="text-lg font-medium text-gray-900">{art.title}</h3>
               <p className="text-sm text-gray-500">{art.category}</p>
             </div>
+            </Link>
           ))}
         </div>
       ) : (
