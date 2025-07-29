@@ -60,7 +60,7 @@ export default function ManageArtworksPage() {
         body: formData,
       });
 
-      toast.success("Artwork updated!");
+      toast.success("Artwork updated successfully!", { id: "edit-success" });
       setEditArtwork(null);
       fetchArtworks();
       setImageFile(null);
@@ -160,8 +160,8 @@ export default function ManageArtworksPage() {
             </div>
 
             <div className="flex gap-2 justify-end">
-              <button type="button" onClick={() => setEditArtwork(null)} className="bg-gray-600 text-white px-4 py-2 rounded">Cancel</button>
-              <button type="submit" className="bg-orange-600 text-white px-4 py-2 rounded">Save</button>
+              <button type="button" onClick={() => setEditArtwork(null)} className="bg-gray-600 text-white px-4 py-2 rounded hover:cursor-pointer">Cancel</button>
+              <button type="submit" className="bg-orange-600 text-white px-4 py-2 rounded hover:cursor-pointer">Save</button>
             </div>
           </form>
         </div>
