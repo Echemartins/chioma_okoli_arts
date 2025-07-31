@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import AdminHeader from '../adminheader';
+import AdminHeader from '../../../components/adminheader';
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function ManageArtworksPage() {
@@ -81,7 +81,6 @@ export default function ManageArtworksPage() {
   return (
     <div className="min-h-screen bg-white text-orange-900 p-6">
       <Toaster position="top-right" />
-      <AdminHeader />
       <h1 className="text-3xl font-bold mb-6 text-orange-700">Manage Artworks</h1>
 
       {/* Filters */}
@@ -129,9 +128,8 @@ export default function ManageArtworksPage() {
             key={i}
             onClick={() => setPage(i + 1)}
             disabled={page === i + 1 || loading}
-            className={`px-3 py-1 rounded border ${
-              page === i + 1 ? 'bg-orange-600 text-white' : 'bg-orange-100 border-orange-300'
-            }`}
+            className={`px-3 py-1 rounded border ${page === i + 1 ? 'bg-orange-600 text-white' : 'bg-orange-100 border-orange-300'
+              }`}
           >
             {i + 1}
           </button>

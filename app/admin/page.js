@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import AdminHeader from './adminheader';
+import AdminHeader from '../../components/adminheader';
 import Image from 'next/image';
 import { ClipLoader } from 'react-spinners';
 
@@ -64,7 +64,7 @@ export default function AdminDashboard() {
         {requests.length === 0 ? (
           <p className="text-gray-500">No requests yet.</p>
         ) : (
-          <div className="space-y-4 m-6 md:m-12">   
+          <div className="space-y-4 m-6 md:m-12">
             {requests.map((req) => (
               <div
                 key={req._id}

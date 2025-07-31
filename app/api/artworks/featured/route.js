@@ -1,4 +1,3 @@
-// app/api/artworks/featured/route.js
 
 import dbConnect from "@/lib/mongodb";
 import Artwork from "@/models/Artwork";

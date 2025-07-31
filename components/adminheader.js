@@ -45,11 +45,10 @@ export default function AdminHeader() {
             <li key={href}>
               <Link
                 href={href}
-                className={`transition-colors font-medium ${
-                  pathname === href
-                    ? "text-orange-600"
-                    : "text-gray-700 hover:text-orange-500"
-                }`}
+                className={`transition-colors font-medium ${pathname === href
+                  ? "text-orange-600"
+                  : "text-gray-700 hover:text-orange-500"
+                  }`}
               >
                 {label}
               </Link>
@@ -67,9 +66,8 @@ export default function AdminHeader() {
       )}
 
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-white text-black z-50 transform transition-transform duration-300 ease-in-out ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-64 bg-white text-black z-50 transform transition-transform duration-300 ease-in-out ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex items-center justify-between px-6 py-4 shadow-md">
           <h2 className="text-lg font-bold text-orange-600">Admin Menu</h2>
@@ -88,11 +86,10 @@ export default function AdminHeader() {
               key={href}
               href={href}
               onClick={() => setIsMenuOpen(false)}
-              className={`block text-base font-medium transition-colors ${
-                pathname === href
-                  ? "text-orange-400"
-                  : "text-gray-700 hover:text-orange-500"
-              }`}
+              className={`block text-base font-medium transition-colors ${pathname === href
+                ? "text-orange-400"
+                : "text-gray-700 hover:text-orange-500"
+                }`}
             >
               {label}
             </Link>

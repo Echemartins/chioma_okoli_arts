@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import AdminHeader from "../adminheader";
+import AdminHeader from "../../../components/adminheader";
 
 export default function SubscribersPage() {
   const [subscribers, setSubscribers] = useState([]);
@@ -21,7 +21,6 @@ export default function SubscribersPage() {
 
   return (
     <div className="min-h-screen bg-white text-orange-800">
-      <AdminHeader />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-8 mt-10 text-center text-orange-600">
           Newsletter Subscribers

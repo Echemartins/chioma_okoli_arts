@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import AdminHeader from '../adminheader';
+import AdminHeader from '../../../components/adminheader';
 
 export default function ManageRequestsPage() {
   const [requests, setRequests] = useState([]);
@@ -51,7 +51,6 @@ export default function ManageRequestsPage() {
 
   return (
     <div className="min-h-screen bg-white text-orange-900 p-6">
-      <AdminHeader />
       <h1 className="text-3xl font-bold mb-6 text-orange-600">Purchase Requests</h1>
 
       {loading ? (
@@ -73,9 +72,8 @@ export default function ManageRequestsPage() {
               <p className="text-sm">
                 <strong>Status:</strong>{' '}
                 <span
-                  className={`font-semibold ${
-                    req.status === 'settled' ? 'text-green-600' : 'text-orange-500'
-                  }`}
+                  className={`font-semibold ${req.status === 'settled' ? 'text-green-600' : 'text-orange-500'
+                    }`}
                 >
                   {req.status}
                 </span>

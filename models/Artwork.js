@@ -1,4 +1,3 @@
-// models/Artwork.js
 
 import mongoose from "mongoose";
 
@@ -7,9 +6,8 @@ const artworkSchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String },
     imageUrl: { type: String, required: true },
-    // userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  
 
-    // New fields
     category: {
       type: String,
       enum: ["Painting", "Sculpture", "Digital Art", "Photography", "Mixed Media", "Other"],
@@ -34,8 +32,8 @@ const artworkSchema = new mongoose.Schema(
   }
 );
 
-artworkSchema.index({ createdAt: -1 }); // descending index for newest first sorting
-artworkSchema.index({ price: 1 });      // ascending index for price sorting
+artworkSchema.index({ createdAt: -1 }); 
+artworkSchema.index({ price: 1 });  
 
 
 

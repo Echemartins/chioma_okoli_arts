@@ -2,7 +2,6 @@ import dbConnect from "@/lib/mongodb";
 import Artwork from "@/models/Artwork";
 import { NextResponse } from "next/server";
 
-// GET one artwork by ID
 export async function GET(req, context) {
   await dbConnect();
 
@@ -21,7 +20,6 @@ export async function GET(req, context) {
   }
 }
 
-// PUT to update an artwork by ID
 export async function PUT(req, { params }) {
   await dbConnect();
   const { artworkId } = params;
@@ -42,7 +40,6 @@ export async function PUT(req, { params }) {
   }
 }
 
-// DELETE an artwork
 export async function DELETE(req, { params }) {
   await dbConnect();
   const { artworkId } = params;

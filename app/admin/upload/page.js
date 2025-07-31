@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import AdminHeader from "../adminheader";
+import AdminHeader from "../../../components/adminheader";
 
 const UploadArtworkPage = () => {
   const router = useRouter();
@@ -103,7 +103,6 @@ const UploadArtworkPage = () => {
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
-      <AdminHeader />
       <ToastContainer />
       <div className="flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-3xl p-8 rounded-xl shadow-xl bg-orange-50 border border-orange-200">

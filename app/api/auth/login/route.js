@@ -1,4 +1,3 @@
-// app/api/auth/login/route.js
 
 import bcrypt from "bcryptjs";
 import User from "../../../../models/User";
@@ -9,10 +8,8 @@ export async function POST(req) {
   try {
     const { email, password } = await req.json();
 
-    // Connect to MongoDB using Mongoose
     await dbConnect();
 
-    // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
       return new Response(JSON.stringify({ message: "User not found" }), {
@@ -21,7 +18,6 @@ export async function POST(req) {
       });
     }
 
-    // Compare passwords
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return new Response(JSON.stringify({ message: "Invalid credentials" }), {
@@ -30,7 +26,6 @@ export async function POST(req) {
       });
     }
 
-    // Generate token
     const token = signToken(user);
 
     return new Response(JSON.stringify({ token }), {

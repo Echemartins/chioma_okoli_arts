@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import AdminHeader from "../adminheader";
 
 export default function ContactMessagesPage() {
   const [messages, setMessages] = useState([]);
@@ -16,7 +15,6 @@ export default function ContactMessagesPage() {
 
   return (
     <>
-      <AdminHeader />
       <div className="min-h-screen bg-white px-6 py-10 md:px-16 text-gray-800">
         <h1 className="text-3xl md:text-4xl font-bold text-orange-600 mb-8">
           Contact Messages

@@ -15,7 +15,6 @@ export async function DELETE(req, { params }) {
 export async function PUT(req, { params }) {
   await connectDB();
 
-  // ✅ Use Next.js native FormData API
   const form = await req.formData();
 
   const updateData = {

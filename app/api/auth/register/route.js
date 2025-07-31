@@ -1,11 +1,9 @@
-// app/api/auth/register/route.js
+
 import User from "../../../../models/User";
 import dbConnect from "../../../../lib/mongodb";
 import { signToken } from "../../../../lib/auth";
 
-import bcrypt from "bcryptjs"; // bcryptjs is often safer with Next.js
-// import dbConnect from "@/lib/db"; // Assumes you have a db.js file for mongoose connection
-// import { signToken } from "@/lib/auth";
+import bcrypt from "bcryptjs"; 
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -19,7 +17,7 @@ export async function POST(req) {
       );
     }
 
-    await dbConnect(); // Mongoose DB connection
+    await dbConnect();
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {

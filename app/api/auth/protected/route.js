@@ -1,4 +1,4 @@
-// app/api/auth/protected/route.js
+
 
 import { verifyToken } from "@/lib/auth";
 
