@@ -1,35 +1,33 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function AnalyticsTracker() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const prevKeyRef = useRef(null);
+  const prevUrlRef = useRef("");
 
   useEffect(() => {
-    const key = pathname + "?" + searchParams.toString();
-    if (prevKeyRef.current === key) return; // avoid duplicate fires
-    prevKeyRef.current = key;
+    if (typeof window === "undefined") return;
 
-    (async () => {
-      try {
-        await fetch("/api/visits", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            event: "pageview",
-            path: key,
-            userAgent: typeof navigator !== "undefined" ? navigator.userAgent : null,
-          }),
-          keepalive: true, // survives quick navigations
-        });
-      } catch (e) {
-        console.error("pageview track failed", e);
-      }
-    })();
-  }, [pathname, searchParams]);
+    // Build the full path using window for the query string.
+    const url = pathname + window.location.search;
+
+    // Avoid duplicate fires on same URL
+    if (prevUrlRef.current === url) return;
+    prevUrlRef.current = url;
+
+    fetch("/api/visitors", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        event: "pageview",
+        path: url,
+        userAgent: navigator.userAgent,
+      }),
+      keepalive: true,
+    }).catch(() => {});
+  }, [pathname]);
 
   return null;
 }

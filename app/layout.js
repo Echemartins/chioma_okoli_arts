@@ -32,7 +32,9 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Toaster position="top-center" reverseOrder={false} />
         <HeaderWrapper />  {/* ✅ Client component handles route logic */}
-        <AnalyticsTracker />
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
         {children}
         <Footer />
       </body>
