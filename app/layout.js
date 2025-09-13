@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import Footer from "../components/footer";
 import HeaderWrapper from "@/components/headerwrapper"; // ✅ New wrapper component
 import AnalyticsTracker from "@/components/analyticsTracker";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
