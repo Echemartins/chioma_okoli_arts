@@ -31,7 +31,7 @@ const FeaturedArtworksSection = () => {
         Featured Artworks
       </h2>
       <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
-        Discover a curated selection of Chiomzy’s most captivating pieces. Every
+        Discover a curated selection of Chioma's most captivating pieces. Every
         work is a window into a creative soul.
       </p>
 

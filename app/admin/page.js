@@ -43,7 +43,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="bg-white text-gray-900 min-h-screen">
-      <AdminHeader />
+      {/* <AdminHeader /> */}
       <h1 className="text-3xl font-bold m-12">Admin Dashboard</h1>
 
       {/* Stat Cards */}
@@ -102,6 +102,7 @@ export default function AdminDashboard() {
         ) : (
           <ArtworkGrid artworks={topViewed} showViews />
         )}
+        {console.log(topViewed)}
       </Section>
     </div>
   );
@@ -149,6 +150,7 @@ function ArtworkGrid({ artworks, showViews = false }) {
             {showViews && (
               <p className="text-xs text-gray-500 mt-1">Views: {art.views}</p>
             )}
+            {console.log(art.views)}
           </div>
         </div>
       ))}

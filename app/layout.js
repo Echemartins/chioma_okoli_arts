@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import Footer from "../components/footer";
 import HeaderWrapper from "@/components/headerwrapper"; // ✅ New wrapper component
+import AnalyticsTracker from "@/components/analyticsTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Toaster position="top-center" reverseOrder={false} />
         <HeaderWrapper />  {/* ✅ Client component handles route logic */}
+        <AnalyticsTracker />
         {children}
         <Footer />
       </body>

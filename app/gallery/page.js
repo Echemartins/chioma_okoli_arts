@@ -73,12 +73,12 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-800 pt-20">
+    <div className="min-h-screen bg-white text-gray-800">
       <Header />
       <main className=" flex flex-col mx-auto px-4 sm:px-6 lg:px-10">
 
         {/* Filters */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mt-20 md:mt-2 mb-10">
+        <div className="flex flex-wrap items-center justify-between gap-4 mt-25 md:mt-0 lg:mt-0 mb-10">
           <select
             className="bg-white text-gray-800 border border-orange-400 px-4 py-2 rounded-md w-full sm:w-auto"
             onChange={(e) => {
@@ -138,8 +138,9 @@ export default function GalleryPage() {
                         src={artwork.imageUrl}
                         alt={artwork.title}
                         fill
-                        loading="lazy"
+                        // loading="lazy"
                         placeholder="blur"
+                        priority
                         blurDataURL="/placeholder.jpg"
                         className="object-contain p-3"
                       />

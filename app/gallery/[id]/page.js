@@ -9,12 +9,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-hot-toast";
-import { FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
-  email: z.string().email(),
-  phone: z.string().min(10).max(15),
+  email: z.string().email("Enter a valid email"),
+  phone: z.string().min(10, "Enter a valid phone").max(15, "Too long"),
   message: z.string().optional(),
 });
 
@@ -34,18 +33,65 @@ export default function ArtworkDetail() {
     resolver: zodResolver(formSchema),
   });
 
+  // Fetch artwork
   useEffect(() => {
+    if (!id) return;
     const fetchArtwork = async () => {
       try {
         const res = await fetch(`/api/artworks/${id}`);
+        if (!res.ok) throw new Error("Failed to load artwork");
         const data = await res.json();
         setArtwork(data);
       } catch (error) {
         console.error("Error fetching artwork:", error);
+        toast.error("Unable to load artwork.");
       }
     };
-
     fetchArtwork();
+  }, [id]);
+
+  // Increment views
+  useEffect(() => {
+    if (!id) return;
+    const incrementView = async () => {
+      try {
+        await fetch(`/api/artworks/${id}/view`, { method: "POST" });
+      } catch (err) {
+        console.error("Error incrementing views:", err);
+      }
+    };
+    incrementView();
+  }, [id]);
+
+  // Track visitor (IP/location + UA) and store in backend
+  useEffect(() => {
+    if (!id) return;
+    const trackVisitor = async () => {
+      try {
+        // Get client IP/location (public service)
+        const res = await fetch("https://ipapi.co/json/");
+        const locationData = await res.json();
+
+        // Send to your backend
+        await fetch("/api/visitors", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            artworkId: id,
+            ip: locationData?.ip ?? null,
+            location: {
+              country: locationData?.country_name ?? null,
+              city: locationData?.city ?? null,
+            },
+            userAgent:
+              typeof navigator !== "undefined" ? navigator.userAgent : null,
+          }),
+        });
+      } catch (e) {
+        console.error("Visitor tracking failed:", e);
+      }
+    };
+    trackVisitor();
   }, [id]);
 
   const onSubmit = async (formData) => {
@@ -62,7 +108,7 @@ export default function ArtworkDetail() {
         setShowForm(false);
         reset();
       } else {
-        const error = await res.json();
+        const error = await res.json().catch(() => null);
         toast.error(error?.error || "Something went wrong.");
       }
     } catch {
@@ -93,23 +139,29 @@ export default function ArtworkDetail() {
           </div>
 
           <div className="flex flex-col space-y-1 bg-orange-100 p-4 rounded-b-lg text-center">
-            <h1 className="text-2xl font-bold text-orange-500">{artwork.title}</h1>
+            <h1 className="text-2xl font-bold text-orange-500">
+              {artwork.title}
+            </h1>
             <p className="text-sm font-medium mb-1">Price: ${artwork.price}</p>
 
-            {artwork.description && (
+            {!!artwork.description && (
               <div className="text-sm text-orange-800">
-                <span className="font-semibold text-orange-600">Description:</span>{" "}
+                <span className="font-semibold text-orange-600">
+                  Description:
+                </span>{" "}
                 <span>
                   {showFullDescription
                     ? artwork.description
                     : artwork.description.length > 120
-                      ? `${artwork.description.slice(0, 120)}...`
-                      : artwork.description}
+                    ? `${artwork.description.slice(0, 120)}...`
+                    : artwork.description}
                 </span>
 
                 {artwork.description.length > 120 && (
                   <button
-                    onClick={() => setShowFullDescription(!showFullDescription)}
+                    onClick={() =>
+                      setShowFullDescription(!showFullDescription)
+                    }
                     className="ml-2 text-orange-500 hover:text-orange-700 font-medium focus:outline-none"
                   >
                     {showFullDescription ? "Read less" : "Read more"}
@@ -118,7 +170,6 @@ export default function ArtworkDetail() {
               </div>
             )}
 
-
             <button
               onClick={() => setShowForm(true)}
               className="w-fit px-6 py-2 bg-orange-400 hover:bg-orange-500 hover:cursor-pointer text-white rounded-lg transition mx-auto"
@@ -126,7 +177,6 @@ export default function ArtworkDetail() {
               Request to Buy
             </button>
           </div>
-
         </div>
 
         <AnimatePresence>
@@ -135,7 +185,7 @@ export default function ArtworkDetail() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-white bg-opacity-20 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+              className="fixed inset-0 bg-white/20 backdrop-blur-sm flex items-center justify-center z-50 px-4"
             >
               <motion.form
                 initial={{ scale: 0.9, opacity: 0 }}
@@ -155,7 +205,9 @@ export default function ArtworkDetail() {
                   className="w-full mb-2 px-4 py-2 border border-orange-300 rounded focus:outline-orange-500"
                 />
                 {errors.name && (
-                  <p className="text-sm text-red-500 mb-2">{errors.name.message}</p>
+                  <p className="text-sm text-red-500 mb-2">
+                    {errors.name.message}
+                  </p>
                 )}
 
                 <input
@@ -165,7 +217,9 @@ export default function ArtworkDetail() {
                   className="w-full mb-2 px-4 py-2 border border-orange-300 rounded focus:outline-orange-500"
                 />
                 {errors.email && (
-                  <p className="text-sm text-red-500 mb-2">{errors.email.message}</p>
+                  <p className="text-sm text-red-500 mb-2">
+                    {errors.email.message}
+                  </p>
                 )}
 
                 <input
@@ -175,7 +229,9 @@ export default function ArtworkDetail() {
                   className="w-full mb-2 px-4 py-2 border border-orange-300 rounded focus:outline-orange-500"
                 />
                 {errors.phone && (
-                  <p className="text-sm text-red-500 mb-2">{errors.phone.message}</p>
+                  <p className="text-sm text-red-500 mb-2">
+                    {errors.phone.message}
+                  </p>
                 )}
 
                 <textarea
@@ -195,10 +251,11 @@ export default function ArtworkDetail() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className={`px-5 py-2 rounded text-white transition hover:cursor-pointer ${loading
+                    className={`px-5 py-2 rounded text-white transition hover:cursor-pointer ${
+                      loading
                         ? "bg-orange-300 cursor-not-allowed"
                         : "bg-orange-600 hover:bg-orange-700"
-                      }`}
+                    }`}
                   >
                     {loading ? "Submitting Request..." : "Submit"}
                   </button>

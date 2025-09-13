@@ -6,7 +6,7 @@ const artworkSchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String },
     imageUrl: { type: String, required: true },
-  
+
 
     category: {
       type: String,
@@ -17,6 +17,10 @@ const artworkSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
+    },
+    views: {
+      type: Number,
+      default: 0,
     },
     isStoreItem: {
       type: Boolean,
@@ -32,8 +36,8 @@ const artworkSchema = new mongoose.Schema(
   }
 );
 
-artworkSchema.index({ createdAt: -1 }); 
-artworkSchema.index({ price: 1 });  
+artworkSchema.index({ createdAt: -1 });
+artworkSchema.index({ price: 1 });
 
 
 
