@@ -1,0 +1,10 @@
+const fs=require("node:fs");
+const file="app/page.js";
+let source=fs.readFileSync(file,"utf8");
+const start=source.indexOf('<section className="hero wrap">');
+const end=source.indexOf('<section className="practice-intro',start);
+if(start<0||end<0)throw Error("Homepage opening section not found");
+const hero=`<section className="hero wrap home-opening"><div className="home-opening-media"><Link href="/about" className="hero-art homepage-portrait"><Image src="/chioma_okoli.jpg" alt="Chioma Favour Okoli with her artwork" width={1108} height={1280} priority sizes="(max-width:800px) 90vw, 46vw"/><span className="image-link">Meet the artist <ArrowUpRight size={17} aria-hidden="true"/></span></Link><div className="art-caption"><span>Chioma Favour Okoli</span><span>CONTEMPORARY ARTIST & CURATOR</span></div></div><div className="home-opening-copy"><h1>Stories held in colour.<br/><em>Possibilities held in material.</em></h1><p>I’m Chioma Favour Okoli, a contemporary artist and curator exploring African identity, cultural memory, and the experiences that shape us.</p><ArrowLink href="/practice">Discover my practice</ArrowLink></div></section>`;
+source=source.slice(0,start)+hero+source.slice(end);
+fs.writeFileSync(file,source,"utf8");
+console.log("Homepage opening now places the portrait alongside the copy, and first on mobile.");

@@ -1,14 +1,14 @@
-"use client";
-import { useEffect, useState } from "react";
-import AdminHeader from "../../../components/adminheader";
+﻿"use client";
+import {adminFetch} from "@/lib/admin-fetch";
 
+import { useEffect, useState } from "react";
 export default function SubscribersPage() {
   const [subscribers, setSubscribers] = useState([]);
 
   useEffect(() => {
     const fetchSubs = async () => {
       try {
-        const res = await fetch("/api/admin/subscribers");
+        const res = await adminFetch("/api/admin/subscribers");
         if (!res.ok) throw new Error("Failed to fetch subscribers");
         const data = await res.json();
         setSubscribers(data);
@@ -20,9 +20,9 @@ export default function SubscribersPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-orange-800">
+    <div className="min-h-screen bg-white text-stone-800">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 mt-10 text-center text-orange-600">
+        <h1 className="text-4xl font-bold mb-8 mt-10 text-center text-stone-600">
           Newsletter Subscribers
         </h1>
 
@@ -33,7 +33,7 @@ export default function SubscribersPage() {
             {subscribers.map((s, i) => (
               <li
                 key={i}
-                className="bg-orange-100 border border-orange-300 text-orange-900 px-4 py-3 rounded shadow-sm hover:bg-orange-200 transition"
+                className="bg-stone-100 border border-stone-300 text-stone-900 px-4 py-3 rounded shadow-sm hover:bg-stone-200 transition"
               >
                 {s.email}
               </li>
@@ -44,3 +44,5 @@ export default function SubscribersPage() {
     </div>
   );
 }
+
+

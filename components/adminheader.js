@@ -11,6 +11,7 @@ export default function AdminHeader() {
 
   const navLinks = [
     { label: "Dashboard", href: "/admin" },
+    { label: "Studio Notes", href: "/admin/journal" },
     { label: "Upload Artwork", href: "/admin/upload" },
     { label: "Manage Artworks", href: "/admin/manageartworks" },
     { label: "Subscribers", href: "/admin/subscribers" },

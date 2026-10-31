@@ -1,3 +1,4 @@
+﻿import { isContentEditor } from "@/lib/content-editor";
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import BuyRequest from "@/models/BuyRequest";
@@ -10,7 +11,7 @@ export async function POST(req) {
   try {
     const newRequest = await BuyRequest.create(data);
 
-    // ✅ Send confirmation email to user
+    // âœ… Send confirmation email to user
     const { email, phone, message, artworkId } = data;
 
     // Optional: You can include artwork title if populated
@@ -46,7 +47,8 @@ export async function POST(req) {
   }
 }
 
-export async function GET() {
+export async function GET(req) {
+  if(!isContentEditor(req)) return NextResponse.json({error:"Editor access required"},{status:403});
   await dbConnect();
   try {
     const requests = await BuyRequest.find().populate("artworkId");
@@ -55,3 +57,4 @@ export async function GET() {
     return NextResponse.json({ error: "Failed to fetch requests" }, { status: 500 });
   }
 }
+

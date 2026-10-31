@@ -1,130 +1,15 @@
 "use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AnimatePresence, motion } from "framer-motion";
-
-// Validation schema
-const schema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-export default function LoginPage() {
-  const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
-  const [serverError, setServerError] = useState("");
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: zodResolver(schema),
-  });
-
-  const onSubmit = async (formData) => {
-    setServerError("");
-
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      localStorage.setItem("token", data.token);
-      router.push("/admin");
-    } else {
-      setServerError(data.message || "Login failed.");
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-orange-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border border-orange-100">
-        <h1 className="text-3xl font-bold text-orange-600 mb-6 text-center">
-          Admin Login
-        </h1>
-
-        <AnimatePresence>
-          {serverError && (
-            <motion.p
-              className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm border border-red-300 text-center"
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-            >
-              {serverError}
-            </motion.p>
-          )}
-        </AnimatePresence>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              placeholder="you@example.com"
-              {...register("email")}
-              className="w-full px-4 py-2 border border-orange-300 rounded bg-orange-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                {...register("password")}
-                className="w-full px-4 py-2 border border-orange-300 rounded bg-orange-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute inset-y-0 right-3 flex items-center text-orange-500 hover:text-orange-600 focus:outline-none"
-                tabIndex={-1}
-              >
-                {showPassword ? "🙈" : "👁️"}
-              </button>
-            </div>
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded transition duration-300"
-          >
-            {isSubmitting ? "Logging in..." : "Login"}
-          </button>
-        </form>
-
-        <p className="text-sm text-center text-gray-600 mt-4">
-          Don&apos;t have an account?{" "}
-          <button
-            onClick={() => router.push("/register")}
-            className="text-orange-500 hover:text-orange-600 font-medium underline"
-          >
-            Register here
-          </button>
-        </p>
-      </div>
-    </div>
-  );
+import {ArrowUpRight,ArrowLeft} from "lucide-react";
+import {useState} from "react";
+import PasswordInput from "@/components/password-input";
+import SiteLogo from "@/components/site-logo";
+import Link from "next/link";
+import {useRouter} from "next/navigation";
+import {safeAdminDestination} from "@/lib/admin-session";
+export default function LoginPage(){
+ const router=useRouter(),[email,setEmail]=useState(""),[password,setPassword]=useState(""),[busy,setBusy]=useState(false),[error,setError]=useState("");
+ async function login(e){e.preventDefault();setBusy(true);setError("");try{const r=await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});const d=await r.json();if(!r.ok)throw Error(d.message||"Sign in failed");localStorage.removeItem("token");const destination=safeAdminDestination(new URLSearchParams(window.location.search).get("next"));router.replace(destination);router.refresh()}catch(err){setError(err.message||"Could not connect. Please try again.")}finally{setBusy(false)}}
+ return <main id="main-content" className="admin-login-page"><div className="login-identity"><Link href="/" className="login-brand"><SiteLogo priority/><span className="wordmark">CHIOMA FAVOUR OKOLI<span>CONTEMPORARY ARTIST & CURATOR</span></span></Link><p>A space for the work.<br/><em>And everything behind it.</em></p><span>STUDIO ADMINISTRATION</span></div><div className="admin-login-card"><span className="small-label">THE ARTIST’S STUDIO</span><h1>Welcome back.</h1><p className="body-copy">Sign in with an authorised editor account to manage your portfolio and studio.</p><form className="contact-form" onSubmit={login}><label htmlFor="email">Email address<input id="email" type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)} disabled={busy}/></label><label htmlFor="password">Password<PasswordInput id="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)} disabled={busy}/></label><Link className="login-recovery-link" href="/forgot-password">Forgot password? Reset by email code <ArrowUpRight size={15} aria-hidden="true"/></Link><button disabled={busy}>{busy?"Signing in…":"Sign in to your studio"}{!busy&&<ArrowUpRight size={18} aria-hidden="true"/>}</button><p role="alert" className="login-error">{error}</p></form><Link href="/" className="text-link login-back"><ArrowLeft size={16} aria-hidden="true"/> Back to the portfolio</Link></div></main>;
 }
+
+

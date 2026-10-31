@@ -15,6 +15,9 @@
 
 # next.js
 /.next/
+/.next-artwork-check/
+/tmp/pdf-review/
+/tmp/pdfs/
 /out/
 
 # production

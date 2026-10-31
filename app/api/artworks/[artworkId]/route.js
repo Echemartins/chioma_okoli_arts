@@ -1,53 +1,12 @@
-import dbConnect from "@/lib/mongodb";
-import Artwork from "@/models/Artwork";
-import { NextResponse } from "next/server";
-
-export async function GET(req, context) {
-  await dbConnect();
-
-  try {
-    const { artworkId } = await context.params;
-
-    const artwork = await Artwork.findById(artworkId);
-
-    if (!artwork) {
-      return NextResponse.json({ message: "Artwork not found" }, { status: 404 });
-    }
-
-    return NextResponse.json(artwork);
-  } catch (error) {
-    return NextResponse.json({ error: "Error fetching artwork" }, { status: 500 });
-  }
+﻿import {NextResponse} from "next/server";
+import {readArtworks,publicArtwork} from "@/lib/artworks";
+import {saveArtwork} from "@/lib/artwork-save";
+export async function GET(req,{params}){
+ const{artworkId}=await params;const{artworks,unavailable}=await readArtworks();
+ if(unavailable)return NextResponse.json({error:"Portfolio temporarily unavailable"},{status:503});
+ const work=artworks.find(w=>w._id===artworkId||w.slug===artworkId);
+ return work?NextResponse.json(publicArtwork(work)):NextResponse.json({error:"Artwork not found"},{status:404});
 }
+export async function PUT(req,{params}){const{artworkId}=await params;return saveArtwork(req,artworkId)}
+export async function DELETE(){return NextResponse.json({error:"Use Archive in the artwork editor."},{status:405})}
 
-export async function PUT(req, { params }) {
-  await dbConnect();
-  const { artworkId } = params;
-  const data = await req.json();
-
-  try {
-    const updatedArtwork = await Artwork.findByIdAndUpdate(artworkId, data, {
-      new: true,
-    });
-
-    if (!updatedArtwork) {
-      return NextResponse.json({ message: "Artwork not found" }, { status: 404 });
-    }
-
-    return NextResponse.json(updatedArtwork);
-  } catch (error) {
-    return NextResponse.json({ error: "Error updating artwork" }, { status: 500 });
-  }
-}
-
-export async function DELETE(req, { params }) {
-  await dbConnect();
-  const { artworkId } = params;
-
-  try {
-    await Artwork.findByIdAndDelete(artworkId);
-    return NextResponse.json({ message: "Artwork deleted" }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ error: "Error deleting artwork" }, { status: 500 });
-  }
-}

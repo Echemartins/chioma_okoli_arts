@@ -1,8 +1,8 @@
-'use client';
+﻿"use client";
+import {adminFetch} from "@/lib/admin-fetch";
+
 
 import { useEffect, useState } from 'react';
-import AdminHeader from '../../../components/adminheader';
-
 export default function ManageRequestsPage() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +11,7 @@ export default function ManageRequestsPage() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await fetch('/api/requests');
+        const res = await adminFetch('/api/requests');
         const data = await res.json();
         setRequests(data);
       } catch (error) {
@@ -27,7 +27,7 @@ export default function ManageRequestsPage() {
   const handleSettle = async (id) => {
     setSettling(id);
     try {
-      const res = await fetch(`/api/requests/${id}`, {
+      const res = await adminFetch(`/api/requests/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'settled' }),
@@ -50,19 +50,19 @@ export default function ManageRequestsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-orange-900 p-6">
-      <h1 className="text-3xl font-bold mb-6 text-orange-600">Purchase Requests</h1>
+    <div className="min-h-screen bg-white text-stone-900 p-6">
+      <h1 className="text-3xl font-bold mb-6 text-stone-600">Purchase Requests</h1>
 
       {loading ? (
-        <p className="text-orange-400">Loading requests...</p>
+        <p className="text-stone-400">Loading requests...</p>
       ) : requests.length === 0 ? (
-        <p className="text-orange-500">No purchase requests yet.</p>
+        <p className="text-stone-500">No purchase requests yet.</p>
       ) : (
         <div className="space-y-6">
           {requests.map((req) => (
             <div
               key={req._id}
-              className="bg-orange-50 border border-orange-200 p-5 rounded-lg shadow-sm"
+              className="bg-stone-50 border border-stone-200 p-5 rounded-lg shadow-sm"
             >
               <p><strong>Name:</strong> {req.name}</p>
               <p><strong>Email:</strong> {req.email}</p>
@@ -72,7 +72,7 @@ export default function ManageRequestsPage() {
               <p className="text-sm">
                 <strong>Status:</strong>{' '}
                 <span
-                  className={`font-semibold ${req.status === 'settled' ? 'text-green-600' : 'text-orange-500'
+                  className={`font-semibold ${req.status === 'settled' ? 'text-green-600' : 'text-stone-500'
                     }`}
                 >
                   {req.status}
@@ -83,7 +83,7 @@ export default function ManageRequestsPage() {
                 <button
                   onClick={() => handleSettle(req._id)}
                   disabled={settling === req._id}
-                  className="mt-4 bg-green-600 hover:bg-green-700 disabled:bg-orange-300 transition px-4 py-2 rounded text-white font-medium"
+                  className="mt-4 bg-green-600 hover:bg-green-700 disabled:bg-stone-300 transition px-4 py-2 rounded text-white font-medium"
                 >
                   {settling === req._id ? 'Marking...' : 'Mark as Settled'}
                 </button>
@@ -95,3 +95,6 @@ export default function ManageRequestsPage() {
     </div>
   );
 }
+
+
+

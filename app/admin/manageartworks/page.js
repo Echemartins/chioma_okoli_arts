@@ -1,169 +1,24 @@
-'use client';
-import { useEffect, useState, useCallback } from "react";
+﻿"use client";
+import {useEffect,useState} from "react";
 import Image from "next/image";
-import AdminHeader from '../../../components/adminheader';
-import toast, { Toaster } from 'react-hot-toast';
-
-export default function ManageArtworksPage() {
-  const [artworks, setArtworks] = useState([]);
-  const [editArtwork, setEditArtwork] = useState(null);
-  const [filters, setFilters] = useState({ title: "", category: "" });
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [limit] = useState(8);
-  const [loading, setLoading] = useState(true);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
-
-  const fetchArtworks = useCallback(async () => {
-    setLoading(true);
-    try {
-      const query = new URLSearchParams({ page, limit, ...filters }).toString();
-      const res = await fetch(`/api/admin/artworks?${query}`);
-      const { artworks, total } = await res.json();
-      setArtworks(artworks);
-      setTotal(total);
-    } catch (error) {
-      toast.error("Failed to load artworks.");
-    } finally {
-      setLoading(false);
-    }
-  }, [filters, page, limit]);
-
-  useEffect(() => {
-    fetchArtworks();
-  }, [fetchArtworks]);
-
-  async function deleteArtwork(id) {
-    if (!confirm("Are you sure?")) return;
-    try {
-      await fetch(`/api/admin/artworks/${id}`, { method: "DELETE" });
-      toast.success("Artwork deleted.");
-      fetchArtworks();
-    } catch {
-      toast.error("Failed to delete artwork.");
-    }
-  }
-
-  async function handleEditSubmit(e) {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('title', e.target.title.value);
-    formData.append('description', e.target.description.value);
-    formData.append('category', e.target.category.value);
-    formData.append('price', e.target.price.value);
-    if (imageFile) formData.append('image', imageFile);
-
-    try {
-      await fetch(`/api/admin/artworks/${editArtwork._id}`, {
-        method: "PUT",
-        body: formData,
-      });
-
-      toast.success("Artwork updated successfully!", { id: "edit-success" });
-      setEditArtwork(null);
-      fetchArtworks();
-      setImageFile(null);
-      setImagePreview(null);
-    } catch {
-      toast.error("Failed to update artwork.");
-    }
-  }
-
-  function handleImageChange(e) {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  }
-
-  return (
-    <div className="min-h-screen bg-white text-orange-900 p-6">
-      <Toaster position="top-right" />
-      <h1 className="text-3xl font-bold mb-6 text-orange-700">Manage Artworks</h1>
-
-      {/* Filters */}
-      <div className="mb-6 flex flex-wrap gap-4">
-        <input
-          placeholder="Search title"
-          value={filters.title}
-          onChange={(e) => setFilters((f) => ({ ...f, title: e.target.value }))}
-          className="bg-orange-50 px-4 py-2 rounded border border-orange-300"
-        />
-        <input
-          placeholder="Filter by category"
-          value={filters.category}
-          onChange={(e) => setFilters((f) => ({ ...f, category: e.target.value }))}
-          className="bg-orange-50 px-4 py-2 rounded border border-orange-300"
-        />
-      </div>
-
-      {/* Grid */}
-      {loading ? (
-        <div className="flex justify-center items-center py-10">
-          <div className="h-12 w-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          {artworks.map((art) => (
-            <div key={art._id} className="bg-orange-50 p-3 rounded shadow">
-              <Image src={art.imageUrl} alt={art.title} width={300} height={200} className="w-full h-40 object-cover rounded" />
-              <p className="mt-2 font-semibold">{art.title}</p>
-              <p className="text-sm text-orange-600">{art.category}</p>
-              <div className="flex justify-between mt-2 text-sm">
-                <button onClick={() => { setEditArtwork(art); setImagePreview(null); setImageFile(null); }} className="text-orange-500 hover:underline">Edit</button>
-                <button onClick={() => deleteArtwork(art._id)} className="text-red-600 hover:underline">Delete</button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Pagination */}
-      <div className="flex flex-wrap gap-2 mt-6 justify-center">
-        <button onClick={() => setPage((p) => Math.max(p - 1, 1))} disabled={page === 1 || loading} className="px-3 py-1 bg-orange-100 text-orange-900 border border-orange-300 rounded disabled:opacity-50">Prev</button>
-        {Array.from({ length: Math.ceil(total / limit) }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => setPage(i + 1)}
-            disabled={page === i + 1 || loading}
-            className={`px-3 py-1 rounded border ${page === i + 1 ? 'bg-orange-600 text-white' : 'bg-orange-100 border-orange-300'
-              }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-        <button onClick={() => setPage((p) => Math.min(p + 1, Math.ceil(total / limit)))} disabled={page === Math.ceil(total / limit) || loading} className="px-3 py-1 bg-orange-100 text-orange-900 border border-orange-300 rounded disabled:opacity-50">Next</button>
-      </div>
-
-      {/* Edit Modal */}
-      {editArtwork && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <form onSubmit={handleEditSubmit} className="bg-white text-black p-6 rounded-lg max-w-md w-full space-y-4">
-            <h2 className="text-xl font-bold text-orange-700">Edit Artwork</h2>
-            <input name="title" defaultValue={editArtwork.title} className="border p-2 w-full" required />
-            <input name="category" defaultValue={editArtwork.category} className="border p-2 w-full" required />
-            <input name="price" type="number" step="0.01" defaultValue={editArtwork.price} className="border p-2 w-full" required />
-            <textarea name="description" defaultValue={editArtwork.description} className="border p-2 w-full" required />
-
-            {/* Image Uploader */}
-            <div>
-              <input type="file" accept="image/*" onChange={handleImageChange} className="border p-2 w-full" />
-              {imagePreview ? (
-                <Image src={imagePreview} alt="Preview" width={300} height={200} className="mt-2 rounded" />
-              ) : (
-                <Image src={editArtwork.imageUrl} alt="Current" width={300} height={200} className="mt-2 rounded" />
-              )}
-            </div>
-
-            <div className="flex gap-2 justify-end">
-              <button type="button" onClick={() => setEditArtwork(null)} className="bg-gray-600 text-white px-4 py-2 rounded hover:cursor-pointer">Cancel</button>
-              <button type="submit" className="bg-orange-600 text-white px-4 py-2 rounded hover:cursor-pointer">Save</button>
-            </div>
-          </form>
-        </div>
-      )}
-    </div>
-  );
+import {Trash2,RotateCcw,Pencil,Plus} from "lucide-react";
+import {adminFetch} from "@/lib/admin-fetch";
+import ArtworkEditor,{blankArtwork} from "@/components/artwork-editor";
+export default function ManageArtworks({evaOnly=false}){
+ const[works,setWorks]=useState([]),[editing,setEditing]=useState(null),[loading,setLoading]=useState(true),[status,setStatus]=useState(""),[search,setSearch]=useState(""),[visibility,setVisibility]=useState("all"),[page,setPage]=useState(1),[mutating,setMutating]=useState("");
+ async function load(){setLoading(true);try{const r=await adminFetch("/api/admin/artworks?limit=200&includeDeleted=1",{cache:"no-store"});const d=await r.json();if(!r.ok)throw Error(d.error||"Could not load artworks");setWorks(d.artworks);setStatus("")}catch(e){setStatus(e.message)}finally{setLoading(false)}}
+ useEffect(()=>{load()},[]);
+ const filtered=works.filter(w=>(!evaOnly||w.isEva)&&w.title.toLowerCase().includes(search.toLowerCase())&&(visibility==="deleted"?w.deleted:!w.deleted&&(visibility==="all"||visibility==="archived"&&w.archived||visibility==="draft"&&!w.published&&!w.archived||visibility==="published"&&w.published&&!w.archived||visibility==="eva"&&w.isEva||visibility==="selected"&&w.isSelected)));
+ const pages=Math.max(1,Math.ceil(filtered.length/12)),current=Math.min(page,pages);
+ async function removeOrRestore(work,restore=false){
+  if(!restore&&!window.confirm('Move "'+work.title+'" to Deleted? It will disappear from the website. Its files will be kept, and you can restore the entry later.'))return;
+  setMutating(work._id);setStatus("");
+  try{const r=await adminFetch("/api/admin/artworks/"+work._id,{method:restore?"PATCH":"DELETE",...(restore?{headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"restore"})}:{})});const d=await r.json();if(!r.ok)throw Error(d.error);await load();setStatus(d.message)}catch(e){setStatus(e.message||"Could not update artwork.")}finally{setMutating("")}
+ }
+ function add(){setEditing({...blankArtwork,isEva:evaOnly,category:evaOnly?"Mixed Media":"Painting",theme:evaOnly?"Material & environment":""});setStatus("")}
+ return <main id="main-content" className="wrap page-space"><div className="page-intro"><p className="eyebrow">CONTENT MANAGEMENT</p><h1>{evaOnly?"EVA media.":"Artworks & research."}</h1><p className="body-copy">{evaOnly?"Manage EVA foam artworks and material studies. Edit details, add images and videos, publish new entries, or remove works. Temporary study labels can be replaced with confirmed titles.":"Manage artwork records, portfolio selections, homepage features, EVA documentation, and acquisition enquiries."}</p></div>
+ {editing?<ArtworkEditor key={editing._id||"new"} artwork={editing} allWorks={works} onCancel={()=>setEditing(null)} onSaved={async()=>{setEditing(null);await load();setStatus("Artwork saved. Published changes are available on the website.")}}/>:<>
+ <div className="editor-toolbar"><button className="primary-button" onClick={add}><Plus size={17} aria-hidden="true"/>{evaOnly?"Add EVA work":"Add artwork"}</button><label>Search title<input value={search} onChange={e=>{setSearch(e.target.value);setPage(1)}}/></label><label>Show<select value={visibility} onChange={e=>{setVisibility(e.target.value);setPage(1)}}>{[["all","All works"],["published","Published"],["draft","Drafts"],["archived","Archived"],...(!evaOnly?[["selected","Selected portfolio"],["eva","EVA research"]]:[]),["deleted","Deleted"]].map(([v,label])=><option key={v} value={v}>{label}</option>)}</select></label><button className="secondary-button" onClick={load} disabled={loading}>Refresh</button></div>
+ {loading?<p role="status">Loading artworks…</p>:<><p className="note">{filtered.length} artworks</p><div className="admin-artwork-grid">{filtered.slice((current-1)*12,current*12).map(w=><article className="admin-artwork-card" key={w._id}><div className="admin-artwork-frame"><Image src={w.imageUrl} alt={w.alt||w.title} fill sizes="(max-width:700px) 44vw, 30vw"/></div><h2>{w.title}</h2><p className="note">{w.deleted?"Deleted":w.archived?"Archived":w.published?"Published":"Draft"}{w.isSelected?" · Selected":""}{w.isFeatured?" · Homepage":""}{w.isEva?" · EVA":""}</p><div className="admin-artwork-actions">{w.deleted?<button className="secondary-button" disabled={!!mutating} onClick={()=>removeOrRestore(w,true)}><RotateCcw size={15} aria-hidden="true"/>Restore as draft</button>:<><button className="secondary-button" onClick={()=>{setEditing(w);setStatus("")}}><Pencil size={15} aria-hidden="true"/>Edit</button><button className="secondary-button" disabled={!!mutating} onClick={()=>removeOrRestore(w)}><Trash2 size={15} aria-hidden="true"/>{mutating===w._id?"Removing…":"Delete"}</button></>}</div></article>)}</div>{!filtered.length&&<p>No artworks match this view.</p>}<div className="editor-actions"><button className="secondary-button" disabled={current<=1} onClick={()=>setPage(current-1)}>Previous</button><span>Page {current} of {pages}</span><button className="secondary-button" disabled={current>=pages} onClick={()=>setPage(current+1)}>Next</button></div></>}
+ </>}<p role="status" aria-live="polite">{status}</p></main>;
 }

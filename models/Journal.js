@@ -1,0 +1,1 @@
+﻿import mongoose from "mongoose";const schema=new mongoose.Schema({title:{type:String,required:true},text:{type:String,required:true},image:String,video:String,published:{type:Boolean,default:false}},{timestamps:true});export default mongoose.models.Journal||mongoose.model("Journal",schema);

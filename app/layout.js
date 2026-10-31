@@ -1,36 +1,28 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
-import Footer from "../components/footer";
+import Footer from "../components/footer-wrapper";
 import HeaderWrapper from "@/components/headerwrapper"; // ✅ New wrapper component
 import AnalyticsTracker from "@/components/analyticsTracker";
 import { Suspense } from "react";
+import BrandingProvider from "@/components/branding-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
-  title: "Chioma Okoli Art",
-  description: "Chioma's Art Gallery and Portfolio",
+  title: { default: "Chioma Favour Okoli — Contemporary Artist & Curator", template: "%s | Chioma Favour Okoli" },
+  description: "Painting, sculpture, cultural memory and material experimentation. Explore the practice and ongoing EVA foam research of contemporary artist and curator Chioma Favour Okoli.",
   icons: {
-    icon: "/IMG-20250610-WA0017_1_-removebg-preview (1).png",
+    icon: [{url:"/branding/chioma-okoli-olive.png",type:"image/png"}],
+    shortcut: "/branding/chioma-okoli-olive.png",
+    apple: "/branding/chioma-okoli-olive.png",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body>
+        <BrandingProvider>
+        <a className="skip-link" href="#main-content">Skip to content</a>
         <Toaster position="top-center" reverseOrder={false} />
         <HeaderWrapper />  {/* ✅ Client component handles route logic */}
         <Suspense fallback={null}>
@@ -38,6 +30,7 @@ export default function RootLayout({ children }) {
         </Suspense>
         {children}
         <Footer />
+        </BrandingProvider>
       </body>
     </html>
   );

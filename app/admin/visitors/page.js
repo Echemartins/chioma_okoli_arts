@@ -1,4 +1,6 @@
-"use client";
+﻿"use client";
+import {adminFetch} from "@/lib/admin-fetch";
+
 
 import { useEffect, useMemo, useState } from "react";
 
@@ -24,7 +26,7 @@ export default function VisitorsPage() {
         qs.set("startDate", startDate);
         qs.set("endDate", endDate);
       }
-      const res = await fetch(`/api/visitors?${qs.toString()}`);
+      const res = await adminFetch(`/api/visitors?${qs.toString()}`);
       if (!res.ok) throw new Error(`Failed to load visitors: ${res.status}`);
       const data = await res.json();
       setVisitors(Array.isArray(data) ? data : []);
@@ -89,7 +91,7 @@ export default function VisitorsPage() {
                 onClick={fetchVisitors}
                 disabled={loading}
                 className={`px-4 py-2 rounded text-white text-sm ${
-                  loading ? "bg-slate-300" : "bg-orange-600 hover:bg-orange-700"
+                  loading ? "bg-slate-300" : "bg-stone-600 hover:bg-stone-700"
                 } w-full sm:w-auto`}
               >
                 {loading ? "Loading..." : "Apply Filters"}
@@ -226,3 +228,5 @@ export default function VisitorsPage() {
     </div>
   );
 }
+
+

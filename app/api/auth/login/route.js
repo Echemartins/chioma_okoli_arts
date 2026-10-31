@@ -3,10 +3,17 @@ import bcrypt from "bcryptjs";
 import User from "../../../../models/User";
 import dbConnect from "../../../../lib/mongodb";
 import { signToken } from "../../../../lib/auth";
+import { NextResponse } from "next/server";
+import { SESSION_COOKIE, SESSION_SECONDS, allowedEditor } from "@/lib/admin-session";
 
 export async function POST(req) {
+  const origin=req.headers.get("origin");
+  if(origin&&origin!==new URL(req.url).origin)return NextResponse.json({message:"Invalid request origin"},{status:403});
   try {
-    const { email, password } = await req.json();
+    const body = await req.json();
+    const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    const password = body.password;
+    if (!email || typeof password !== "string") return Response.json({message:"Enter your email and password"},{status:400});
 
     await dbConnect();
 
@@ -26,12 +33,12 @@ export async function POST(req) {
       });
     }
 
+    if(!allowedEditor(user.email,process.env.CONTENT_EDITOR_EMAILS))return NextResponse.json({message:"This account does not have admin access."},{status:403});
     const token = signToken(user);
 
-    return new Response(JSON.stringify({ token }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    const response=NextResponse.json({success:true},{headers:{"Cache-Control":"no-store"}});
+    response.cookies.set(SESSION_COOKIE,token,{httpOnly:true,sameSite:"lax",secure:process.env.NODE_ENV==="production",path:"/",maxAge:SESSION_SECONDS});
+    return response;
 
   } catch (error) {
     console.error("Login Error:", error);

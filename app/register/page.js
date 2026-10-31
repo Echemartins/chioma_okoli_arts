@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
+import PasswordInput from "@/components/password-input";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -91,8 +92,8 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <input
-              type="password"
+            <PasswordInput
+              autoComplete="new-password"
               placeholder="Password"
               {...register("password")}
               className="w-full px-4 py-2 border border-orange-300 rounded bg-orange-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -103,8 +104,8 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <input
-              type="password"
+            <PasswordInput
+              autoComplete="new-password"
               placeholder="Confirm Password"
               {...register("confirmPassword")}
               className="w-full px-4 py-2 border border-orange-300 rounded bg-orange-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -157,3 +158,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+

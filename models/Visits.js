@@ -8,6 +8,7 @@ const VisitSchema = new Schema(
     sid: { type: String, index: true },
     ip: { type: String, index: true },
     country: { type: String, index: true },
+    countryCode: { type: String, index: true },
     city: { type: String },
     userAgent: { type: String },
   },

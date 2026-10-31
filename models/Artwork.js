@@ -6,6 +6,26 @@ const artworkSchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String },
     imageUrl: { type: String, required: true },
+    sourceKey: { type: String, index: { unique: true, sparse: true } },
+    year: String,
+    medium: String,
+    dimensions: String,
+    series: String,
+    theme: String,
+    alt: String,
+    exhibitionHistory: String,
+    processNotes: String,
+    researchNotes: String,
+    relatedWorks: [String],
+    media: [{ url: String, alt: String, caption: String, kind: String }],
+    videoUrls: [String],
+    isSelected: { type: Boolean, default: false },
+    isEva: { type: Boolean, default: false },
+    published: { type: Boolean, default: false },
+    archived: { type: Boolean, default: false },
+    deleted: { type: Boolean, default: false },
+    acquisitionAvailable: { type: Boolean, default: false },
+    sortOrder: { type: Number, default: 0 },
 
 
     category: {
@@ -15,7 +35,7 @@ const artworkSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      required: true,
+      required: false,
       min: 0,
     },
     views: {

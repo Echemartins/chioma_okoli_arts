@@ -1,0 +1,6 @@
+const fs=require("node:fs");
+const files=["app/page.js","app/login/page.js","app/admin/page.js","components/artwork-editor.js","components/contact-form.js"];
+const replacements=[["â€™","’"],["â€”","—"],["â€“","–"],["â€¦","…"],["â†—","↗"],["â†‘","↑"],["â†“","↓"],["â†”","↔"],["Â·","·"]];
+for(const file of files){let value=fs.readFileSync(file,"utf8").replace(/\uFEFF/g,"");for(const [a,b]of replacements)value=value.split(a).join(b);if(file==="components/artwork-editor.js"){value=value.replace('import {ArrowUpRight}','import {ArrowUpRight,ArrowUp,ArrowDown}').replace('View saved public page ↗','View saved public page <ArrowUpRight size={16} aria-hidden="true"/>').replace('{direction===-1?"↑ Up":"↓ Down"}','{direction===-1?<><ArrowUp size={15} aria-hidden="true"/> Up</>:<><ArrowDown size={15} aria-hidden="true"/> Down</>}')}fs.writeFileSync(file,value,"utf8")}
+const cssFile="app/globals.css";
+let css=fs.readFileSync(cssFile,"utf8");css=css.replace(".theme-list span:before{content:'↗';margin-right:8px}",".theme-list span:before{content:'';display:inline-block;width:4px;height:4px;background:currentColor;border-radius:50%;margin-right:8px;vertical-align:middle}");fs.writeFileSync(cssFile,css,"utf8");

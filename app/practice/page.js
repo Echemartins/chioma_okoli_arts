@@ -1,0 +1,3 @@
+﻿import {PageIntro,ArrowLink} from "@/components/portfolio";import {themes} from "@/lib/portfolio";
+export const metadata={title:"Practice"};
+export default function Practice(){return <main id="main-content" className="wrap page-space"><PageIntro index="THE PRACTICE" title="Connected ideas. Evolving forms.">My practice brings cultural memory, women’s experiences, and material experimentation into the same conversation.</PageIntro>{themes.map(([title,text],i)=><section className="editorial-row" key={title}><span className="eyebrow">0{i+1}</span><h2>{title}</h2><p className="body-copy">{text}</p></section>)}<ArrowLink href="/research">Explore the material research</ArrowLink></main>}
