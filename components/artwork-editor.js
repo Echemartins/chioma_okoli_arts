@@ -109,7 +109,7 @@ export default function ArtworkEditor({ artwork, allWorks = [], onSaved, onCance
     </fieldset>
 
     <fieldset disabled={saving}><legend>Visibility & acquisition</legend>
-      {check("Published — visible to visitors", "published")}{check("Selected portfolio", "isSelected")}{check("Feature on homepage", "isFeatured")}{check("Show on EVA Foam Research page", "isEva")}{check("Accept acquisition enquiries for this work", "acquisitionAvailable")}{check("Archived — hidden from all public pages", "archived")}
+      {check("Published — visible to visitors", "published")}{check("Selected portfolio", "isSelected")}{check("Feature on homepage (first 12 in display order)", "isFeatured")}{check("Show on EVA Foam Research page", "isEva")}{check("Accept acquisition enquiries for this work", "acquisitionAvailable")}{check("Archived — hidden from all public pages", "archived")}
       {input("Private reference price in USD (optional, never displayed publicly)","price",{type:"number",min:0,step:"0.01"})}
       <p className="note">Unpublish to keep a draft. Archive to hide a work while preserving its details. Publishing affects the portfolio, homepage and EVA page according to the options above.</p>
     </fieldset>
