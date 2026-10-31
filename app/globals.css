@@ -54,3 +54,13 @@
 
 /* Full navigation on laptops; compact menu below 1024 CSS pixels. */
 @media(min-width:1024px){.site-header{flex-wrap:nowrap}.site-header>.menu-toggle{display:none}.site-header>.main-nav{display:flex;width:auto;padding:0;flex-direction:row;align-items:center;gap:clamp(10px,1.2vw,20px)}.site-header>.main-nav a{font-size:clamp(13px,1.05vw,15px);width:auto}.site-header .header-brand .site-logo{width:clamp(100px,10vw,144px)}}
+
+/* Compact public header, with comfortable navigation controls. */
+.site-header{min-height:78px;padding-block:8px}
+.site-header .header-brand .site-logo{width:100px;height:auto}
+@media(max-width:1023px){.site-header{min-height:72px;padding-block:8px}.site-header .header-brand .site-logo{width:92px}}
+@media(max-width:600px){.site-header{min-height:66px;padding-block:6px}.site-header .header-brand .site-logo{width:82px}}
+
+/* Give the homepage artwork more of the opening layout. */
+@media(min-width:801px){.hero.home-opening{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(28px,4vw,64px)}.home-opening-media{width:100%}.home-opening .hero-art.homepage-portrait{height:auto;min-height:0;aspect-ratio:auto;max-height:none;background:transparent}.home-opening .hero-art.homepage-portrait img{width:100%;height:auto;max-height:none;display:block}.home-opening-copy>p{max-width:100%}}
+@media(max-width:800px){.home-opening .hero-art.homepage-portrait{height:auto;aspect-ratio:1280/990;max-height:65svh}}
